@@ -1,7 +1,9 @@
 ---
 import Btn from './Btn.astro';
 import Logo from './Logo.astro';
-import Poster from './Poster.astro';
+import { Image } from 'astro:assets';
+import { sitePhoto } from '../data/media';
+import { mt } from '../i18n/media';
 import { ui } from '../i18n/ui';
 import type { Lang } from '../i18n/langs';
 import { operator } from '../data/tours';
@@ -10,7 +12,7 @@ const { lang } = Astro.props;
 const t = ui[lang];
 ---
 <footer id="contact" class="relative isolate scroll-mt-20 overflow-hidden bg-night text-white">
-  <div class="absolute inset-x-0 bottom-0 -z-10 h-[70%] opacity-35"><Poster scene="eagle" id="footer" sun={false} /></div>
+  <div class="absolute inset-0 -z-10 opacity-45"><Image src={sitePhoto('almaty')} alt="" widths={[640, 1200, 1920]} sizes="100vw" format="webp" loading="lazy" class="h-full w-full object-cover object-bottom" /></div>
   <div class="absolute inset-0 -z-10 bg-gradient-to-b from-night via-night/80 to-night/40"></div>
   <div class="mx-auto max-w-[1440px] px-4 pb-8 pt-20 md:px-10 lg:pt-28">
     <h2 class="display t-xl max-w-[12ch]" data-split>{t.contact.title}</h2>
@@ -23,6 +25,6 @@ const t = ui[lang];
       <div class="flex items-center gap-3"><Logo class="size-12" /><span><b class="block text-[15px]">{operator.name}</b><span class="text-[13px] text-white/60">Almaty · Kazakhstan</span></span></div>
       <p class="text-end"><span class="block text-[12px] font-bold uppercase tracking-[.18em] text-white/50 rtl:tracking-normal">{t.contact.now}</span><b class="num text-[24px]" data-clock="Asia/Almaty"></b></p>
     </div>
-    <p class="mt-8 text-[12px] text-white/50">{t.footer}</p>
+    <p class="mt-8 text-[12px] text-white/50">{t.footer} {mt[lang].credit}</p>
   </div>
 </footer>

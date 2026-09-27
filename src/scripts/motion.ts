@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 import { initKit } from './kit';
+import './clips';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -52,7 +53,7 @@ if (reduced) {
   });
 
   // Hero photo: slow push-in on load, drift on scroll
-  const heroImg = document.querySelector<HTMLElement>('[data-hero-img] img, [data-hero-img] .photo-ph');
+  const heroImg = document.querySelector<HTMLElement>('[data-hero-img] .clip, [data-hero-img] img, [data-hero-img] .photo-ph');
   if (heroImg) {
     gsap.fromTo(heroImg, { scale: 1.18 }, { scale: 1.04, duration: 2.6, ease: 'power2.out' });
     gsap.to(heroImg, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '[data-hero]', start: 'top top', end: 'bottom top', scrub: true } });

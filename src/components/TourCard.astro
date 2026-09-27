@@ -1,16 +1,18 @@
 ---
-import Poster from './Poster.astro';
+import { Image } from 'astro:assets';
+import { photos } from '../data/media';
 import { ui } from '../i18n/ui';
 import { path, type Lang } from '../i18n/langs';
 import type { Tour } from '../data/tours';
 interface Props { tour: Tour; lang: Lang; class?: string }
 const { tour, lang, class: cls = '' } = Astro.props;
 const t = ui[lang];
+const cover = photos(tour.slug)[0];
 const dur = tour.days > 1 ? `${tour.days} ${t.card.d}` : `${tour.hours} ${t.card.h}`;
 ---
 <a href={path(lang, `/tours/${tour.slug}/`)} class:list={['tour-card group block', cls]} data-days={tour.days} data-level={tour.level} data-cursor={t.card.details}>
   <div class="relative aspect-[4/5] overflow-hidden rounded-[24px]">
-    <span class="absolute inset-0 transition-transform duration-[1.2s] ease-[var(--ease)] group-hover:scale-[1.06]"><Poster scene={tour.scene} id={`card-${tour.slug}`} /></span>
+    <Image src={cover} alt={tour.name[lang]} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 92vw" format="webp" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-[var(--ease)] group-hover:scale-[1.06]" />
     <span class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night/85 via-night/30 to-transparent"></span>
     <span class="absolute start-3 top-3 flex flex-wrap gap-1.5">
       <span class="tag"><svg viewBox="0 0 24 24" class="size-3.5 text-gold" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" /></svg><b class="num">{tour.rating.toFixed(1)}</b><span class="font-medium text-stone num">({tour.reviews.toLocaleString('en-US')})</span></span>

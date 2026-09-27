@@ -4,3 +4,9 @@ dist/
 .env
 .shots/
 .wrangler/
+
+# Raw downloads for scripts/media.mjs (large; re-download with media/fetch.sh)
+media/raw/
+media/vs/
+media/sheets/
+media/photos/

@@ -1,0 +1,15 @@
+import type { Lang } from './langs';
+
+// Strings for the photo and video parts of the site: stories, galleries, trip finder
+export const mt: Record<Lang, {
+  stories: string; watch: string; allPhotos: string; photos: string; close: string; next: string; prev: string;
+  where: string; anyTour: string; when: string; guests: string; find: string; credit: string; sound: string;
+  places: string; placesTitle: string; reviews: string; reviewsTitle: string;
+}> = {
+  en: { stories: 'Tours in 15 seconds', watch: 'Watch', allPhotos: 'Show all photos', photos: 'photos', close: 'Close', next: 'Next', prev: 'Previous', where: 'Where', anyTour: 'All tours', when: 'When', guests: 'Guests', find: 'Find my tour', credit: 'Demo photos and video: Pexels contributors, filmed in Kazakhstan.', sound: 'Filmed on the tour', places: 'Places', placesTitle: 'Real places, a few hours away', reviews: 'Reviews', reviewsTitle: 'Travellers say' },
+  ru: { stories: 'Туры за 15 секунд', watch: 'Смотреть', allPhotos: 'Все фото', photos: 'фото', close: 'Закрыть', next: 'Далее', prev: 'Назад', where: 'Куда', anyTour: 'Все туры', when: 'Когда', guests: 'Гости', find: 'Подобрать тур', credit: 'Фото и видео для демо: авторы Pexels, снято в Казахстане.', sound: 'Снято на туре', places: 'Места', placesTitle: 'Настоящие места в паре часов от города', reviews: 'Отзывы', reviewsTitle: 'Говорят путешественники' },
+  kk: { stories: 'Турлар 15 секундта', watch: 'Көру', allPhotos: 'Барлық фото', photos: 'фото', close: 'Жабу', next: 'Келесі', prev: 'Артқа', where: 'Қайда', anyTour: 'Барлық турлар', when: 'Қашан', guests: 'Қонақтар', find: 'Тур таңдау', credit: 'Демо фото және видео: Pexels авторлары, Қазақстанда түсірілген.', sound: 'Турда түсірілген', places: 'Орындар', placesTitle: 'Қаладан бірнеше сағаттағы нақты орындар', reviews: 'Пікірлер', reviewsTitle: 'Саяхатшылар айтады' },
+  ar: { stories: 'جولات في 15 ثانية', watch: 'شاهد', allPhotos: 'كل الصور', photos: 'صور', close: 'إغلاق', next: 'التالي', prev: 'السابق', where: 'إلى أين', anyTour: 'كل الجولات', when: 'متى', guests: 'الضيوف', find: 'ابحث عن جولتي', credit: 'صور وفيديو العرض: مساهمو Pexels، صُوّرت في كازاخستان.', sound: 'صُوّر خلال الجولة', places: 'الأماكن', placesTitle: 'أماكن حقيقية على بعد ساعات قليلة', reviews: 'التقييمات', reviewsTitle: 'ماذا يقول المسافرون' },
+  zh: { stories: '15秒看行程', watch: '观看', allPhotos: '查看全部照片', photos: '张照片', close: '关闭', next: '下一个', prev: '上一个', where: '去哪里', anyTour: '全部行程', when: '什么时候', guests: '人数', find: '查找行程', credit: '演示照片和视频：Pexels 作者，拍摄于哈萨克斯坦。', sound: '行程实拍', places: '目的地', placesTitle: '真实风景，几小时即达', reviews: '评价', reviewsTitle: '游客评价' },
+  hi: { stories: '15 सेकंड में टूर', watch: 'देखें', allPhotos: 'सभी फ़ोटो देखें', photos: 'फ़ोटो', close: 'बंद करें', next: 'अगला', prev: 'पिछला', where: 'कहाँ', anyTour: 'सभी टूर', when: 'कब', guests: 'मेहमान', find: 'मेरा टूर खोजें', credit: 'डेमो फ़ोटो और वीडियो: Pexels योगदानकर्ता, कज़ाख़स्तान में फ़िल्माया गया।', sound: 'टूर पर फ़िल्माया गया', places: 'जगहें', placesTitle: 'असली जगहें, कुछ घंटों की दूरी पर', reviews: 'समीक्षाएँ', reviewsTitle: 'यात्री कहते हैं' },
+};

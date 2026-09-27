@@ -1,0 +1,153 @@
+---
+// Instagram-style stories: a circle per tour, tapping opens full-screen vertical clips and photos
+// with progress bars, tap zones and a Book button. Visitors arrive from Instagram and WhatsApp and already know this pattern.
+import { getImage } from 'astro:assets';
+import { tours } from '../data/tours';
+import { photos, clips } from '../data/media';
+import { ui } from '../i18n/ui';
+import { mt } from '../i18n/media';
+import { path, type Lang } from '../i18n/langs';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const m = mt[lang];
+
+const data = await Promise.all(tours.map(async (tour) => {
+  const pics = photos(tour.slug);
+  const ring = await getImage({ src: pics[0], width: 160, height: 160, fit: 'cover', format: 'webp' });
+  const slides = await Promise.all(pics.slice(1, 4).map(async (p) => ({ img: (await getImage({ src: p, width: 1080, format: 'webp', quality: 70 })).src })));
+  return {
+    slug: tour.slug, name: tour.name[lang], usd: tour.group, ring: ring.src, href: path(lang, `/tours/${tour.slug}/?book=1`),
+    slides: [{ video: `/media/${tour.slug}-m.mp4`, poster: `/media/${tour.slug}-m.webp` }, ...slides],
+  };
+}));
+---
+<div class="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:gap-5 md:px-0" style="scrollbar-width:none" role="list" aria-label={m.stories}>
+  {data.map((s, i) => (
+    <button type="button" class="story-ring press group flex w-[76px] shrink-0 flex-col items-center gap-2 md:w-[96px]" data-story={i} role="listitem" data-cursor={m.watch}>
+      <span class="relative grid size-[72px] place-items-center rounded-full p-[3px] md:size-[92px]" style="background:conic-gradient(from 200deg,var(--color-gold),var(--color-sky),var(--color-gold-2),var(--color-gold))">
+        <img src={s.ring} alt="" width="160" height="160" loading="lazy" class="size-full rounded-full object-cover ring-[3px] ring-snow transition-transform duration-500 group-hover:scale-105" />
+      </span>
+      <span class="line-clamp-2 text-center text-[12px] font-semibold leading-tight">{s.name}</span>
+    </button>
+  ))}
+</div>
+
+<dialog class="story" data-story-dialog aria-label={m.stories}>
+  <div class="story-frame">
+    <div class="story-media" data-story-media></div>
+    <div class="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/60 to-transparent px-3 pb-10 pt-[calc(10px+env(safe-area-inset-top))]">
+      <div class="flex gap-1" data-story-bars></div>
+      <div class="mt-3 flex items-center gap-2.5 text-white">
+        <img class="size-9 rounded-full object-cover ring-2 ring-white/70" alt="" data-story-avatar />
+        <p class="min-w-0 flex-1 leading-tight"><b class="block truncate text-[14px]" data-story-name></b><span class="text-[12px] text-white/75">{m.sound}</span></p>
+        <button type="button" class="grid size-11 place-items-center rounded-full text-[26px]" data-story-close aria-label={m.close}>×</button>
+      </div>
+    </div>
+    <button type="button" class="absolute inset-y-0 start-0 z-[5] w-1/3" data-story-prev aria-label={m.prev}></button>
+    <button type="button" class="absolute inset-y-0 end-0 z-[5] w-2/3" data-story-next aria-label={m.next}></button>
+    <div class="absolute inset-x-0 bottom-0 z-10 flex items-end gap-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-[calc(16px+env(safe-area-inset-bottom))] pt-16 text-white">
+      <p class="me-auto leading-tight"><span class="block text-[12px] text-white/75">{t.card.from}</span><b class="num text-[24px]" dir="ltr" data-story-price></b><span class="text-[12px] text-white/75"> / {t.card.person}</span></p>
+      <a class="kbtn kbtn-gold press !min-h-12 !px-7" data-story-book>{t.card.book}</a>
+    </div>
+  </div>
+</dialog>
+<script type="application/json" id="story-data" set:html={JSON.stringify(data)} />
+
+<style is:global>
+  .story { width: 100%; height: 100%; max-width: 100%; max-height: 100%; margin: 0; padding: 0; border: 0; background: #000; }
+  .story::backdrop { background: rgba(4, 12, 18, .92); }
+  .story-frame { position: relative; height: 100dvh; width: 100%; margin: auto; overflow: hidden; background: #000; user-select: none; -webkit-user-select: none; }
+  @media (min-width: 700px) { .story { background: transparent; } .story-frame { width: min(440px, calc(100dvh * 9 / 16)); height: min(96dvh, 860px); margin-top: 2dvh; border-radius: 22px; } }
+  .story-media > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .story[open] .story-frame { animation: story-in .45s var(--ease); }
+  @keyframes story-in { from { transform: scale(.92); opacity: 0; } }
+  .story-bar { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,.35); overflow: hidden; }
+  .story-bar i { display: block; height: 100%; width: 0; background: #fff; }
+  html[dir="rtl"] .story-bar i { margin-inline-start: auto; }
+</style>
+
+<script>
+  type Slide = { video?: string; poster?: string; img?: string };
+  type Story = { name: string; usd: number; ring: string; href: string; slides: Slide[] };
+  const S: Story[] = JSON.parse(document.getElementById('story-data')!.textContent!);
+  const dlg = document.querySelector<HTMLDialogElement>('[data-story-dialog]')!;
+  const media = dlg.querySelector<HTMLElement>('[data-story-media]')!;
+  const bars = dlg.querySelector<HTMLElement>('[data-story-bars]')!;
+  const IMG_MS = 5000;
+  let si = 0, sl = 0, raf = 0, start = 0, paused = false, elapsedAtPause = 0, skipClick = false;
+
+  function open(i: number) { si = i; sl = 0; if (!dlg.open) dlg.showModal(); render(); }
+  function close() { cancelAnimationFrame(raf); media.innerHTML = ''; dlg.close(); }
+  function render() {
+    cancelAnimationFrame(raf);
+    const s = S[si];
+    dlg.querySelector<HTMLImageElement>('[data-story-avatar]')!.src = s.ring;
+    dlg.querySelector('[data-story-name]')!.textContent = s.name;
+    const price = dlg.querySelector<HTMLElement>('[data-story-price]')!;
+    price.textContent = (window as any).qyMoney?.fmt(s.usd) ?? `$${s.usd}`;
+    dlg.querySelector<HTMLAnchorElement>('[data-story-book]')!.href = s.href;
+    bars.innerHTML = s.slides.map((_, k) => `<span class="story-bar"><i style="width:${k < sl ? 100 : 0}%"></i></span>`).join('');
+    const slide = s.slides[sl];
+    media.innerHTML = '';
+    if (slide.video) {
+      const v = document.createElement('video');
+      Object.assign(v, { src: slide.video, poster: slide.poster, muted: true, playsInline: true, autoplay: true });
+      v.setAttribute('playsinline', '');
+      v.onended = next;
+      media.appendChild(v);
+      v.play().catch(() => {});
+      tick(() => (v.duration ? v.currentTime / v.duration : 0));
+    } else {
+      const img = new Image(); img.src = slide.img!; img.alt = ''; media.appendChild(img);
+      start = performance.now(); elapsedAtPause = 0;
+      tick(() => (performance.now() - start) / IMG_MS, true);
+    }
+    // Warm up the next slide
+    const nx = s.slides[sl + 1] || S[si + 1]?.slides[0];
+    if (nx?.img) new Image().src = nx.img;
+  }
+  function tick(progress: () => number, timed = false) {
+    const bar = bars.children[sl]?.querySelector('i') as HTMLElement;
+    const step = () => {
+      if (!paused) {
+        const p = Math.min(1, progress());
+        bar.style.width = `${p * 100}%`;
+        if (timed && p >= 1) return next();
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+  }
+  function next() { if (sl < S[si].slides.length - 1) sl++; else if (si < S.length - 1) { si++; sl = 0; } else return close(); render(); }
+  function prev() { if (sl > 0) sl--; else if (si > 0) { si--; sl = 0; } render(); }
+
+  document.querySelectorAll<HTMLElement>('[data-story]').forEach((b) => b.addEventListener('click', () => open(Number(b.dataset.story))));
+  const rtl = document.documentElement.dir === 'rtl';
+  // Tap zones sit at the logical start and end, so they already follow RTL
+  const tap = (fwd: boolean) => () => { if (skipClick) { skipClick = false; return; } (fwd ? next : prev)(); };
+  dlg.querySelector('[data-story-next]')!.addEventListener('click', tap(true));
+  dlg.querySelector('[data-story-prev]')!.addEventListener('click', tap(false));
+  dlg.querySelector('[data-story-close]')!.addEventListener('click', close);
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+  dlg.addEventListener('close', () => { cancelAnimationFrame(raf); media.innerHTML = ''; });
+  dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') next(); if (e.key === 'ArrowLeft') prev(); });
+
+  // Hold to pause, swipe down to close, swipe sideways to jump between tours
+  let x0 = 0, y0 = 0, t0 = 0;
+  const frame = dlg.querySelector<HTMLElement>('.story-frame')!;
+  frame.addEventListener('pointerdown', (e) => {
+    x0 = e.clientX; y0 = e.clientY; t0 = performance.now();
+    paused = true; elapsedAtPause = performance.now() - start;
+    media.querySelector('video')?.pause();
+  });
+  frame.addEventListener('pointerup', (e) => {
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    start = performance.now() - elapsedAtPause; paused = false;
+    media.querySelector('video')?.play().catch(() => {});
+    if (dy > 90 && Math.abs(dy) > Math.abs(dx)) { close(); return; }
+    skipClick = performance.now() - t0 > 350; // a long press only pauses
+    if (Math.abs(dx) > 70) { skipClick = true; const fwd = (dx < 0) !== rtl; if (fwd && si < S.length - 1) { si++; sl = 0; render(); } else if (!fwd && si > 0) { si--; sl = 0; render(); } }
+  });
+  document.addEventListener('qy-currency', () => { if (dlg.open) dlg.querySelector('[data-story-price]')!.textContent = (window as any).qyMoney.fmt(S[si].usd); });
+</script>

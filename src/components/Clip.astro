@@ -1,0 +1,16 @@
+---
+// Muted looping clip with a poster that shows instantly. Portrait file on phones, landscape on wide screens.
+// Files live in public/media/<name>-m.mp4|webp (720x1280) and <name>-d.mp4|webp (1280x720 or larger).
+// The video only loads when on screen, and never on Save-Data, 2G or reduced motion (src/scripts/clips.ts).
+interface Props { name: string; alt: string; class?: string; eager?: boolean; only?: 'm' | 'd' }
+const { name, alt, class: cls = '', eager = false, only } = Astro.props;
+const m = only === 'd' ? name + '-d' : name + '-m';
+const d = only === 'm' ? name + '-m' : name + '-d';
+---
+<div class:list={['clip absolute inset-0 overflow-hidden', cls]}>
+  <picture>
+    <source media="(min-aspect-ratio: 1/1)" srcset={`/media/${d}.webp`} />
+    <img src={`/media/${m}.webp`} alt={alt} class="absolute inset-0 h-full w-full object-cover" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" />
+  </picture>
+  <video class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700" muted playsinline loop preload="none" aria-hidden="true" data-clip-m={`/media/${m}.mp4`} data-clip-d={`/media/${d}.mp4`}></video>
+</div>
