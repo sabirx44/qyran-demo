@@ -1,0 +1,65 @@
+---
+// Header with language and currency switchers. Every element with data-usd shows its price in the chosen currency.
+import Logo from './Logo.astro';
+import LangSwitch from './LangSwitch.astro';
+import { ui } from '../i18n/ui';
+import { langMeta, path, type Lang } from '../i18n/langs';
+import { rates, operator } from '../data/tours';
+interface Props { lang: Lang; page?: string; solid?: boolean }
+const { lang, page = '/', solid = false } = Astro.props;
+const t = ui[lang];
+const home = path(lang);
+const links = [['tours', `${home}#tours`], ['why', `${home}#why`], ['agencies', `${home}#agencies`], ['faq', `${home}#faq`]] as const;
+---
+<header class:list={['fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,color] duration-500', solid ? 'solid' : 'over']} data-header>
+  <div class="mx-auto flex h-[68px] max-w-[1440px] items-center gap-3 px-4 md:h-[76px] md:gap-5 md:px-10">
+    <a href={home} class="me-auto flex items-center gap-2.5" data-magnetic="0.2" aria-label={operator.name}>
+      <Logo class="size-10" />
+      <span class="display text-[30px] tracking-[0.06em]" style="text-transform:uppercase;font-family:'Alumni Sans Variable',sans-serif;font-weight:800">{operator.name}</span>
+    </a>
+    <nav class="hidden items-center gap-7 text-[15px] font-semibold lg:flex" aria-label="Main">
+      {links.map(([k, href]) => <a href={href} class="nav-link">{t.nav[k]}</a>)}
+    </nav>
+    <label class="relative">
+      <span class="sr-only">{t.nav.currency}</span>
+      <select class="cur-select h-10 cursor-pointer appearance-none rounded-full bg-white/90 pe-7 ps-3.5 text-[13px] font-bold text-night ring-1 ring-line" data-currency data-default={langMeta[lang].currency}>
+        {Object.keys(rates).map((c) => <option value={c}>{c}</option>)}
+      </select>
+      <svg viewBox="0 0 24 24" class="pointer-events-none absolute end-2.5 top-1/2 size-3.5 -translate-y-1/2 text-night" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+    </label>
+    <LangSwitch lang={lang} page={page} label={t.nav.lang} />
+    <a href={`${home}#tours`} class="kbtn kbtn-gold press hidden !min-h-11 !rounded-full !px-5 !text-[14px] md:inline-flex" data-magnetic="0.2">{t.nav.book}</a>
+  </div>
+</header>
+<script type="application/json" id="rates" set:html={JSON.stringify(rates)} />
+
+<style is:global>
+  [data-header].over { color: #fff; }
+  [data-header].solid, [data-header].over.scrolled { color: var(--color-night); background: rgba(247, 248, 245, .9); backdrop-filter: blur(16px); box-shadow: 0 1px 0 var(--color-line); }
+  .nav-link { position: relative; }
+  .nav-link::after { content: ""; position: absolute; inset-inline: 0; bottom: -6px; height: 2px; background: var(--color-gold); transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease); }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Currency: remembered per visitor, defaults to the language's usual currency
+  const rates = JSON.parse(document.getElementById('rates')!.textContent!);
+  const sel = document.querySelector<HTMLSelectElement>('[data-currency]')!;
+  let cur = sel.dataset.default!;
+  try { cur = localStorage.getItem('qy-cur') || cur; } catch {}
+  sel.value = cur;
+  const fmt = (usd: number, c = cur) => {
+    const r = rates[c];
+    const v = Math.round((usd * r.rate) / r.round) * r.round;
+    return `${r.symbol}${v.toLocaleString('en-US')}`;
+  };
+  (window as any).qyMoney = { fmt: (usd: number) => fmt(usd), get cur() { return cur; } };
+  const paint = () => document.querySelectorAll<HTMLElement>('[data-usd]').forEach((el) => (el.textContent = fmt(Number(el.dataset.usd))));
+  (window as any).qyPaint = paint;
+  sel.addEventListener('change', () => { cur = sel.value; try { localStorage.setItem('qy-cur', cur); } catch {} paint(); document.dispatchEvent(new CustomEvent('qy-currency')); });
+  paint();
+</script>

@@ -1,0 +1,28 @@
+// Walks through the booking flow at phone size and saves a screenshot of every step.
+import puppeteer from 'puppeteer-core';
+const base = process.argv[2] ?? 'http://localhost:4391';
+const lang = process.argv[3] ?? '';
+const b = await puppeteer.launch({ executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true });
+const p = await b.newPage();
+await p.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+await p.goto(`${base}${lang ? `/${lang}` : ''}/tours/charyn-kolsai-kaindy/?qa`, { waitUntil: 'networkidle0' });
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const shot = async (n) => { await wait(700); await p.screenshot({ path: `.shots/book-${lang || 'en'}-${n}.png` }); };
+await shot(0);
+await p.evaluate(() => document.querySelectorAll('[data-book-open]')[1].click());
+await wait(600);
+await p.evaluate(() => { const d = [...document.querySelectorAll('[data-day]')].find((x) => !x.disabled); d?.click(); });
+await shot(1);
+await p.evaluate(() => document.querySelector('[data-next]').click());
+await p.evaluate(() => { document.querySelector('[data-inc="adults"]').click(); document.querySelector('[data-inc="children"]').click(); document.querySelector('[data-addon="photo"]').click(); document.querySelector('[data-f="pickup"]').value = 'Rixos Almaty'; });
+await shot(2);
+await p.evaluate(() => document.querySelector('[data-next]').click());
+await p.type('[data-f="name"]', 'Aarav Sharma'); await p.type('[data-f="phone"]', '+91 98765 43210'); await p.type('[data-f="email"]', 'aarav@example.com');
+await shot(3);
+await p.evaluate(() => document.querySelector('[data-next]').click());
+await shot(4);
+await p.evaluate(() => document.querySelector('[data-next]').click());
+await wait(800);
+await shot(5);
+console.log(await p.evaluate(() => ({ code: document.querySelector('[data-code]').textContent, total: document.querySelector('[data-total]').textContent, wa: decodeURIComponent(document.querySelector('[data-wa-confirm]').href).slice(0, 200) })));
+await b.close();

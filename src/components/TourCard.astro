@@ -1,0 +1,28 @@
+---
+import Poster from './Poster.astro';
+import { ui } from '../i18n/ui';
+import { path, type Lang } from '../i18n/langs';
+import type { Tour } from '../data/tours';
+interface Props { tour: Tour; lang: Lang; class?: string }
+const { tour, lang, class: cls = '' } = Astro.props;
+const t = ui[lang];
+const dur = tour.days > 1 ? `${tour.days} ${t.card.d}` : `${tour.hours} ${t.card.h}`;
+---
+<a href={path(lang, `/tours/${tour.slug}/`)} class:list={['tour-card group block', cls]} data-days={tour.days} data-level={tour.level} data-cursor={t.card.details}>
+  <div class="relative aspect-[4/5] overflow-hidden rounded-[24px]">
+    <span class="absolute inset-0 transition-transform duration-[1.2s] ease-[var(--ease)] group-hover:scale-[1.06]"><Poster scene={tour.scene} id={`card-${tour.slug}`} /></span>
+    <span class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night/85 via-night/30 to-transparent"></span>
+    <span class="absolute start-3 top-3 flex flex-wrap gap-1.5">
+      <span class="tag"><svg viewBox="0 0 24 24" class="size-3.5 text-gold" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" /></svg><b class="num">{tour.rating.toFixed(1)}</b><span class="font-medium text-stone num">({tour.reviews.toLocaleString('en-US')})</span></span>
+      {tour.hit && <span class="tag !bg-gold">{t.card.hit}</span>}
+    </span>
+    <span class="absolute inset-x-4 bottom-4 text-white">
+      <span class="flex flex-wrap gap-2 text-[12px] font-semibold text-white/85"><span class="num">{dur}</span>·<span class="num">{tour.km} km</span>·<span>{t.card.level[tour.level - 1]}</span></span>
+      <h3 class="display t-m mt-2">{tour.name[lang]}</h3>
+      <span class="mt-3 flex items-end justify-between gap-3">
+        <span><span class="block text-[12px] text-white/75">{t.card.from}</span><b class="num text-[22px] leading-none" dir="ltr" data-usd={tour.group}>${tour.group}</b><span class="text-[12px] text-white/75"> / {t.card.person}</span></span>
+        <span class="grid size-11 shrink-0 place-items-center rounded-[14px] bg-gold text-night transition-transform duration-500 group-hover:rotate-[-45deg] rtl:-scale-x-100"><svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </span>
+    </span>
+  </div>
+</a>

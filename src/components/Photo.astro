@@ -1,0 +1,38 @@
+---
+// Shows an optimized photo from src/assets/img/<name> when the file exists,
+// otherwise a labelled placeholder so the layout is ready before photos arrive.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  name: string; // e.g. "dental/hero.jpg" (extension optional)
+  alt: string;
+  class?: string;
+  sizes?: string;
+  eager?: boolean;
+  position?: string; // CSS object-position
+  label?: boolean; // show the file name on the placeholder
+  optional?: boolean; // render nothing (no placeholder) when the file is missing
+}
+const { name, alt, class: cls = '', sizes = '100vw', eager = false, position = 'center', label = true, optional = false } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>('/src/assets/img/**/*.{jpg,jpeg,png,webp,avif}', { eager: true });
+const base = name.replace(/\.(jpe?g|png|webp|avif)$/i, '');
+const key = Object.keys(files).find((k) => k.replace('/src/assets/img/', '').replace(/\.(jpe?g|png|webp|avif)$/i, '') === base);
+const img = key ? files[key].default : null;
+---
+{img ? (
+  <Image
+    src={img}
+    alt={alt}
+    widths={[480, 800, 1200, 1800]}
+    sizes={sizes}
+    format="webp"
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    class:list={['absolute inset-0 h-full w-full object-cover', cls]}
+    style={`object-position:${position}`}
+  />
+) : optional ? null : (
+  <div class:list={['photo-ph', cls]} role="img" aria-label={alt}>{label && <span>{base}.jpg</span>}</div>
+)}

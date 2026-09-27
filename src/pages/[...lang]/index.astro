@@ -1,0 +1,167 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Btn from '../../components/Btn.astro';
+import Logo from '../../components/Logo.astro';
+import Poster from '../../components/Poster.astro';
+import TourCard from '../../components/TourCard.astro';
+import { ui } from '../../i18n/ui';
+import { langMeta, path, staticLangPaths, type Lang } from '../../i18n/langs';
+import { tours, operator } from '../../data/tours';
+
+export const getStaticPaths = staticLangPaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const eagle = tours.find((x) => x.slug === 'eagle-hunters')!;
+const travellers = tours.reduce((s, x) => s + x.reviews, 0);
+const places = { en: ['Charyn', 'Kolsai', 'Kaindy', 'Big Almaty Lake', 'Shymbulak', 'Medeu', 'Altyn-Emel', 'Kok-Tobe'], ru: ['Чарын', 'Кольсай', 'Каинды', 'БАО', 'Шымбулак', 'Медеу', 'Алтын-Эмель', 'Кок-Тобе'], kk: ['Шарын', 'Көлсай', 'Қайыңды', 'Үлкен Алматы көлі', 'Шымбұлақ', 'Медеу', 'Алтынемел', 'Көктөбе'], ar: ['شارين', 'كولساي', 'كايندي', 'بحيرة ألماتي', 'شيمبولاك', 'ميديو', 'ألتين إيميل', 'كوك توبي'], zh: ['恰林', '科尔赛', '凯因迪', '大阿拉木图湖', '琼布拉克', '麦迪奥', '阿尔泰-埃梅尔', '阔克托别'], hi: ['चारिन', 'कोलसाई', 'काइंडी', 'बिग अल्माटी लेक', 'शिम्बुलाक', 'मेडेउ', 'अल्टिन-एमेल', 'कोक-टोबे'] }[lang];
+const schema = {
+  '@context': 'https://schema.org', '@type': 'TravelAgency', name: `${operator.name} (concept)`, url: new URL(path(lang), Astro.site).href,
+  address: { '@type': 'PostalAddress', addressLocality: 'Almaty', addressCountry: 'KZ' }, inLanguage: langMeta[lang].locale,
+};
+const wa = `https://wa.me/${operator.whatsapp}`;
+---
+<Base lang={lang} title={t.meta.title} description={t.meta.description} schema={schema}>
+  <!-- Intro: the flag's sun rises, the eagle crosses it -->
+  <div class="kpre" data-preloader aria-hidden="true">
+    <div class="flex flex-col items-center gap-5 text-white">
+      <span data-pre-in><Logo class="size-28" /></span>
+      <span class="overflow-hidden"><span class="kick block !text-gold-2" data-pre-text>{t.pre}</span></span>
+    </div>
+  </div>
+  <div class="kprogress" data-progress-bar aria-hidden="true"></div>
+  <div class="kcursor" data-cursor-el aria-hidden="true"><span class="kcursor-dot"></span><span class="kcursor-label" data-cursor-label></span></div>
+
+  <Header lang={lang} />
+
+  <!-- HERO: poster of Charyn, title at the thumb's reach on phones -->
+  <section class="relative isolate overflow-hidden" data-hero>
+    <div class="absolute inset-0 -z-10" data-hero-img><Poster scene="canyon" id="hero" /></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-night/90 via-night/30 to-night/20"></div>
+    <div class="mx-auto flex min-h-[100svh] max-w-[1440px] flex-col justify-end px-4 pb-24 pt-28 text-white md:px-10 md:pb-16">
+      <p class="kick !text-gold-2" data-reveal>{t.hero.kicker}</p>
+      <h1 class="display t-mega mt-4 [&_span]:text-gold" data-split set:html={t.hero.title} />
+      <p class="mt-5 max-w-[40ch] text-[17px] text-white/85" data-reveal>{t.hero.text}</p>
+      <div class="mt-7 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap" data-reveal>
+        <Btn href="#tours" variant="gold">{t.hero.cta}</Btn>
+        <a href={wa} target="_blank" rel="noopener" class="kbtn kbtn-glass press">{t.hero.cta2}</a>
+      </div>
+      <dl class="mt-10 grid max-w-[560px] grid-cols-3 gap-2 rounded-[20px] bg-white/10 p-3 backdrop-blur-md sm:gap-4 sm:p-4" data-reveal>
+        <div><dd class="display text-[34px] leading-none" data-count>4.9</dd><dt class="mt-1 text-[12px] text-white/75">{t.hero.rating}</dt></div>
+        <div><dd class="display text-[34px] leading-none" dir="ltr"><span data-count>{travellers.toLocaleString('en-US')}</span>+</dd><dt class="mt-1 text-[12px] text-white/75">{t.hero.travellers}</dt></div>
+        <div><dd class="display text-[34px] leading-none" data-count>5</dd><dt class="mt-1 text-[12px] text-white/75">{t.hero.langs}</dt></div>
+      </dl>
+    </div>
+  </section>
+
+  <div class="kmarquee bg-gold py-4 text-night" data-marquee="30" aria-hidden="true">
+    <div data-marquee-track>{[0, 1].map(() => places.map((p) => <span class="display flex items-center gap-6 pe-6 text-[clamp(30px,4vw,54px)]">{p}<Logo class="size-8" /></span>))}</div>
+  </div>
+
+  <!-- TOURS -->
+  <section id="tours" class="scroll-mt-16 py-16 md:py-24 lg:py-28">
+    <div class="mx-auto max-w-[1440px] px-4 md:px-10">
+      <p class="kick" data-reveal>{t.nav.tours}</p>
+      <h2 class="display t-xl mt-3" data-split>{lang === 'en' ? 'Pick your day' : t.nav.tours}</h2>
+      <div class="-mx-4 mt-6 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:px-0" style="scrollbar-width:none" role="toolbar">
+        {([['all', t.filters.all], ['day', t.filters.day], ['multi', t.filters.multi], ['easy', t.filters.easy]] as const).map(([k, l], i) => <button type="button" class="chip press" aria-pressed={i === 0 ? 'true' : 'false'} data-filter={k}>{l}</button>)}
+      </div>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        {tours.map((x) => <TourCard tour={x} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY DIRECT -->
+  <section id="why" class="scroll-mt-16 bg-night py-16 text-white md:py-24">
+    <div class="mx-auto max-w-[1440px] px-4 md:px-10">
+      <p class="kick !text-gold-2" data-reveal>{t.why.kicker}</p>
+      <h2 class="display t-xl mt-3 max-w-[14ch]" data-split>{t.why.title}</h2>
+      <div class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {t.why.items.map(([h, p], i) => (
+          <article class:list={['rounded-[22px] p-6', i === 0 ? 'bg-gold text-night' : 'bg-white/7']} data-reveal>
+            <span class:list={['display block text-[54px] leading-none', i === 0 ? 'text-night/30' : 'text-sky-2']}>0{i + 1}</span>
+            <h3 class="display t-m mt-6">{h}</h3>
+            <p class:list={['mt-2 text-[15px]', i === 0 ? 'text-night/80' : 'text-white/70']}>{p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EAGLE FEATURE -->
+  <section class="relative isolate overflow-hidden">
+    <div class="absolute inset-0 -z-10" data-zoom><Poster scene="eagle" id="feature" /></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-night/85 via-night/20 to-transparent"></div>
+    <div class="mx-auto flex min-h-[88svh] max-w-[1440px] flex-col justify-end px-4 pb-16 text-white md:px-10">
+      <p class="kick !text-gold-2" data-reveal>{t.eagle.kicker}</p>
+      <h2 class="display t-xl mt-3 max-w-[12ch]" data-split>{t.eagle.title}</h2>
+      <p class="mt-4 max-w-[46ch] text-white/85" data-reveal>{t.eagle.text}</p>
+      <div class="mt-7" data-reveal><Btn href={path(lang, `/tours/${eagle.slug}/`)} variant="gold">{t.eagle.cta}</Btn></div>
+    </div>
+  </section>
+
+  <!-- AGENCIES -->
+  <section id="agencies" class="scroll-mt-16 py-16 md:py-24">
+    <div class="mx-auto grid max-w-[1440px] items-center gap-8 px-4 md:grid-cols-[1.2fr_0.8fr] md:px-10">
+      <div>
+        <p class="kick" data-reveal>{t.agencies.kicker}</p>
+        <h2 class="display t-xl mt-3" data-split>{t.agencies.title}</h2>
+        <p class="mt-4 max-w-[48ch] text-stone" data-reveal>{t.agencies.text}</p>
+      </div>
+      <div class="flex md:justify-end" data-reveal><Btn href={`${wa}?text=${encodeURIComponent('Agency rates request')}`} target="_blank" variant="night">{t.agencies.cta}</Btn></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="scroll-mt-16 bg-mist py-16 md:py-24">
+    <div class="mx-auto max-w-[900px] px-4 md:px-10">
+      <h2 class="display t-l" data-split>{t.faq.title}</h2>
+      <div class="mt-8 divide-y divide-line rounded-[22px] bg-white">
+        {t.faq.items.map(([q, a]) => (
+          <details class="faq group px-5 py-1">
+            <summary class="flex min-h-[60px] cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-semibold">{q}<span class="grid size-8 shrink-0 place-items-center rounded-full bg-mist text-[18px] transition-transform group-open:rotate-45">+</span></summary>
+            <p class="pb-5 text-stone">{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer lang={lang} />
+
+  <!-- Phone bottom bar: the two things visitors want, in thumb reach -->
+  <div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-line bg-snow/95 px-3 pb-[calc(10px+env(safe-area-inset-bottom))] pt-2.5 backdrop-blur md:hidden" data-bottombar>
+    <a href="#tours" class="kbtn kbtn-gold press !min-h-12">{t.hero.cta}</a>
+    <a href={wa} target="_blank" rel="noopener" class="kbtn kbtn-night press !min-h-12">WhatsApp</a>
+  </div>
+</Base>
+
+<style is:global>
+  .faq summary::-webkit-details-marker { display: none; }
+  [data-bottombar] { transform: translateY(110%); transition: transform .5s var(--ease); }
+  [data-bottombar].on { transform: none; }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches || new URLSearchParams(location.search).has('qa');
+
+  const cards = [...document.querySelectorAll<HTMLElement>('.tour-card')];
+  document.querySelectorAll<HTMLElement>('[data-filter]').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.filter!;
+    document.querySelectorAll('[data-filter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    const shown = cards.filter((c) => k === 'all' || (k === 'day' && c.dataset.days === '1') || (k === 'multi' && Number(c.dataset.days) > 1) || (k === 'easy' && c.dataset.level === '1'));
+    cards.forEach((c) => (c.hidden = !shown.includes(c)));
+    if (!reduced) gsap.fromTo(shown, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.05 });
+    ScrollTrigger.refresh();
+  }));
+
+  // Bottom bar appears after the hero
+  const bar = document.querySelector<HTMLElement>('[data-bottombar]')!;
+  const onScroll = () => bar.classList.toggle('on', window.scrollY > window.innerHeight * 0.6);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+</script>

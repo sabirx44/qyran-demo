@@ -1,0 +1,106 @@
+import type { Lang } from './langs';
+
+const en = {
+  meta: { title: 'QYRAN — Almaty tours: Charyn, Kolsai, Big Almaty Lake, eagle hunters | Book direct', description: 'Small-group and private tours from Almaty with English, Hindi, Arabic and Chinese speaking guides. Book online with a 20% deposit.' },
+  nav: { tours: 'Tours', why: 'Why direct', agencies: 'For agencies', faq: 'FAQ', contact: 'Contact', book: 'Book', lang: 'Language', currency: 'Currency' },
+  pre: 'Almaty · Tian Shan',
+  hero: { kicker: 'Almaty, Kazakhstan', title: 'Beyond <span>the city</span>', text: 'Canyons, alpine lakes and golden eagles, a few hours from your hotel. Small groups, private cars, guides who speak your language.', cta: 'Find a tour', cta2: 'WhatsApp us', rating: 'guest rating', travellers: 'travellers', langs: 'guide languages' },
+  filters: { all: 'All', day: 'Day trips', multi: '2+ days', easy: 'Easy' },
+  card: { from: 'from', person: 'person', h: 'h', d: 'days', book: 'Book', details: 'Details', level: ['Easy', 'Moderate', 'Active'], max: 'max', hit: 'Most booked' },
+  why: { kicker: 'Why book direct', title: 'Same guides. No middleman.', items: [['Better price', 'No marketplace commission, so the price you see is the price we get.'], ['20% deposit', 'Hold your seat online. Pay the rest to your guide in cash or by card.'], ['Free cancellation', 'Cancel up to 48 hours before the tour and get the deposit back.'], ['Your language', 'Guides in English, Hindi, Arabic, Chinese and Russian. Halal and vegetarian meals.']] },
+  eagle: { kicker: 'Only in Kazakhstan', title: 'Hold a golden eagle', text: 'Berkutchi families have hunted with golden eagles for centuries. Meet one, see the birds fly and hear the story of the Golden Man found near Almaty.', cta: 'See the eagle tour' },
+  agencies: { kicker: 'For travel agencies', title: 'Your DMC in Almaty', text: 'Net rates, PDF itineraries in your language and a manager on WhatsApp for your groups from India, the Gulf and China.', cta: 'Get agency rates' },
+  faq: { title: 'Good to know', items: [['When is the best season?', 'May to October for lakes and canyons; December to March for Shymbulak and winter tours.'], ['Where do you pick me up?', 'At any hotel or apartment in central Almaty. Tell us the address when you book.'], ['What should I wear?', 'Comfortable shoes and a warm layer: mountain weather changes fast, even in summer.'], ['How do I pay?', 'A 20% deposit by card online or with Kaspi; the rest to your guide in cash or by card.']] },
+  contact: { title: 'Questions? We answer fast', text: 'Write on WhatsApp in any language. A real person replies, usually within 15 minutes.', whatsapp: 'WhatsApp', now: 'Now in Almaty' },
+  tour: { back: 'All tours', duration: 'Duration', distance: 'Distance', level: 'Level', group: 'Group size', plan: 'The day', includes: 'Included', perPerson: 'per person', groupTour: 'Small group', privateTour: 'Private car', perCar: 'per car', bookNow: 'Book this tour', km: 'km', people: 'people' },
+  booking: { title: 'Book your tour', steps: ['Date', 'Guests', 'Details', 'Pay'], date: 'Choose a date', soldout: 'Full', few: 'last seats', guests: 'Guests', adults: 'Adults', children: 'Children (4–12)', type: 'Tour type', pickup: 'Pickup address', pickupPh: 'Hotel name or address in Almaty', addons: 'Extras', name: 'Full name', phone: 'WhatsApp number', email: 'Email', pay: 'Payment', card: 'Card', kaspi: 'Kaspi', cash: 'Pay the guide', deposit: 'Deposit now (20%)', rest: 'Pay on the day', total: 'Total', next: 'Continue', back: 'Back', confirm: 'Confirm booking', confirmed: 'You are booked!', code: 'Booking code', calendar: 'Add to calendar', whatsapp: 'Get confirmation on WhatsApp', demo: 'Demo: no real payment is taken.', hello: 'Hello! I booked', free: 'free' },
+  footer: 'Website concept by Esanov. QYRAN is a fictional tour operator; prices and ratings are examples.',
+};
+type UI = typeof en;
+
+const ru: UI = {
+  meta: { title: 'QYRAN — туры из Алматы: Чарын, Кольсай, БАО, беркутчи | Бронь напрямую', description: 'Групповые и индивидуальные туры из Алматы с гидами на английском, хинди, арабском и китайском. Онлайн-бронь с предоплатой 20%.' },
+  nav: { tours: 'Туры', why: 'Почему напрямую', agencies: 'Агентствам', faq: 'Вопросы', contact: 'Контакты', book: 'Забронировать', lang: 'Язык', currency: 'Валюта' },
+  pre: 'Алматы · Тянь-Шань',
+  hero: { kicker: 'Алматы, Казахстан', title: 'За пределами <span>города</span>', text: 'Каньоны, горные озёра и беркуты в нескольких часах от отеля. Небольшие группы, свои машины, гиды на вашем языке.', cta: 'Выбрать тур', cta2: 'Написать в WhatsApp', rating: 'рейтинг гостей', travellers: 'путешественников', langs: 'языков гидов' },
+  filters: { all: 'Все', day: 'На один день', multi: '2+ дня', easy: 'Лёгкие' },
+  card: { from: 'от', person: 'чел.', h: 'ч', d: 'дн.', book: 'Бронь', details: 'Подробнее', level: ['Лёгкий', 'Средний', 'Активный'], max: 'до', hit: 'Чаще бронируют' },
+  why: { kicker: 'Почему напрямую', title: 'Те же гиды. Без посредников.', items: [['Цена лучше', 'Без комиссии маркетплейсов: какую цену видите, ту мы и получаем.'], ['Предоплата 20%', 'Бронируете место онлайн, остальное — гиду наличными или картой.'], ['Бесплатная отмена', 'Отмена за 48 часов до тура — предоплата возвращается.'], ['Ваш язык', 'Гиды на английском, хинди, арабском, китайском и русском. Халяль и вегетарианское питание.']] },
+  eagle: { kicker: 'Только в Казахстане', title: 'Беркут на вашей руке', text: 'Семьи беркутчи веками охотятся с беркутами. Познакомьтесь с ними, увидьте полёт птиц и услышьте историю Золотого человека, найденного под Алматы.', cta: 'Тур к беркутчи' },
+  agencies: { kicker: 'Турагентствам', title: 'Ваш DMC в Алматы', text: 'Нетто-цены, программы в PDF на вашем языке и менеджер в WhatsApp для групп из Индии, стран Залива и Китая.', cta: 'Получить цены для агентств' },
+  faq: { title: 'Полезно знать', items: [['Какой сезон лучше?', 'Май–октябрь для озёр и каньонов; декабрь–март для Шымбулака и зимних туров.'], ['Откуда вы забираете?', 'Из любого отеля или квартиры в центре Алматы. Укажите адрес при бронировании.'], ['Что надеть?', 'Удобную обувь и тёплый слой: в горах погода меняется быстро даже летом.'], ['Как оплатить?', 'Предоплата 20% картой онлайн или через Kaspi, остальное — гиду наличными или картой.']] },
+  contact: { title: 'Есть вопросы? Отвечаем быстро', text: 'Пишите в WhatsApp на любом языке. Отвечает живой человек, обычно за 15 минут.', whatsapp: 'WhatsApp', now: 'Сейчас в Алматы' },
+  tour: { back: 'Все туры', duration: 'Длительность', distance: 'Расстояние', level: 'Сложность', group: 'Группа', plan: 'Программа', includes: 'Включено', perPerson: 'за человека', groupTour: 'Мини-группа', privateTour: 'Своя машина', perCar: 'за машину', bookNow: 'Забронировать тур', km: 'км', people: 'чел.' },
+  booking: { title: 'Бронирование', steps: ['Дата', 'Гости', 'Данные', 'Оплата'], date: 'Выберите дату', soldout: 'Нет мест', few: 'мало мест', guests: 'Гости', adults: 'Взрослые', children: 'Дети (4–12)', type: 'Формат', pickup: 'Адрес трансфера', pickupPh: 'Отель или адрес в Алматы', addons: 'Дополнительно', name: 'Имя и фамилия', phone: 'Номер WhatsApp', email: 'Email', pay: 'Оплата', card: 'Карта', kaspi: 'Kaspi', cash: 'Гиду на месте', deposit: 'Предоплата сейчас (20%)', rest: 'В день тура', total: 'Итого', next: 'Далее', back: 'Назад', confirm: 'Подтвердить бронь', confirmed: 'Вы забронировали!', code: 'Код брони', calendar: 'В календарь', whatsapp: 'Подтверждение в WhatsApp', demo: 'Демо: реальная оплата не списывается.', hello: 'Здравствуйте! Я забронировал', free: 'бесплатно' },
+  footer: 'Концепт сайта от Esanov. QYRAN — вымышленный туроператор, цены и рейтинги для примера.',
+};
+
+const kk: UI = {
+  meta: { title: 'QYRAN — Алматыдан турлар: Шарын, Көлсай, Үлкен Алматы көлі, бүркітшілер', description: 'Алматыдан ағылшын, хинди, араб және қытай тілді гидтермен топтық және жеке турлар. 20% алдын ала төлеммен онлайн брондау.' },
+  nav: { tours: 'Турлар', why: 'Неге тікелей', agencies: 'Агенттіктерге', faq: 'Сұрақтар', contact: 'Байланыс', book: 'Брондау', lang: 'Тіл', currency: 'Валюта' },
+  pre: 'Алматы · Тянь-Шань',
+  hero: { kicker: 'Алматы, Қазақстан', title: 'Қаладан <span>тыс</span>', text: 'Шатқалдар, тау көлдері және бүркіттер қонақүйден бірнеше сағат жерде. Шағын топтар, жеке көліктер, сіздің тіліңіздегі гидтер.', cta: 'Тур таңдау', cta2: 'WhatsApp-қа жазу', rating: 'қонақтар бағасы', travellers: 'саяхатшы', langs: 'гид тілдері' },
+  filters: { all: 'Барлығы', day: 'Бір күндік', multi: '2+ күн', easy: 'Жеңіл' },
+  card: { from: 'бастап', person: 'адам', h: 'сағ', d: 'күн', book: 'Брондау', details: 'Толығырақ', level: ['Жеңіл', 'Орташа', 'Белсенді'], max: 'дейін', hit: 'Жиі брондалады' },
+  why: { kicker: 'Неге тікелей', title: 'Сол гидтер. Делдалсыз.', items: [['Бағасы тиімді', 'Маркетплейс комиссиясы жоқ: көрген бағаңызды біз аламыз.'], ['20% алдын ала төлем', 'Орынды онлайн брондаңыз, қалғанын гидке қолма-қол немесе картамен төлейсіз.'], ['Тегін бас тарту', 'Турға 48 сағат қалғанда бас тартсаңыз, алдын ала төлем қайтарылады.'], ['Сіздің тіліңіз', 'Ағылшын, хинди, араб, қытай және орыс тілді гидтер. Халал және вегетариандық тамақ.']] },
+  eagle: { kicker: 'Тек Қазақстанда', title: 'Бүркіт қолыңызда', text: 'Бүркітші отбасылары ғасырлар бойы бүркітпен аң аулайды. Олармен танысыңыз, құстардың ұшуын көріп, Алматы маңынан табылған Алтын адам тарихын тыңдаңыз.', cta: 'Бүркітшілерге тур' },
+  agencies: { kicker: 'Туристік агенттіктерге', title: 'Алматыдағы DMC серіктесіңіз', text: 'Нетто бағалар, сіздің тіліңіздегі PDF бағдарламалар және Үндістан, Парсы шығанағы мен Қытайдан келетін топтарға WhatsApp менеджері.', cta: 'Агенттік бағаларын алу' },
+  faq: { title: 'Білген жөн', items: [['Қай маусым жақсы?', 'Көлдер мен шатқалдарға мамыр–қазан; Шымбұлақ пен қысқы турларға желтоқсан–наурыз.'], ['Қайдан алып кетесіз?', 'Алматы орталығындағы кез келген қонақүй немесе пәтерден. Брондағанда мекенжайды көрсетіңіз.'], ['Не кию керек?', 'Ыңғайлы аяқ киім және жылы киім: тауда ауа райы жазда да тез өзгереді.'], ['Қалай төлеймін?', '20% алдын ала төлем картамен онлайн немесе Kaspi арқылы, қалғаны гидке.']] },
+  contact: { title: 'Сұрақ бар ма? Тез жауап береміз', text: 'WhatsApp-қа кез келген тілде жазыңыз. Әдетте 15 минутта нақты адам жауап береді.', whatsapp: 'WhatsApp', now: 'Қазір Алматыда' },
+  tour: { back: 'Барлық турлар', duration: 'Ұзақтығы', distance: 'Қашықтығы', level: 'Күрделілігі', group: 'Топ', plan: 'Бағдарлама', includes: 'Қамтылған', perPerson: 'бір адамға', groupTour: 'Шағын топ', privateTour: 'Жеке көлік', perCar: 'көлікке', bookNow: 'Турды брондау', km: 'км', people: 'адам' },
+  booking: { title: 'Брондау', steps: ['Күн', 'Қонақтар', 'Мәлімет', 'Төлем'], date: 'Күнді таңдаңыз', soldout: 'Орын жоқ', few: 'орын аз', guests: 'Қонақтар', adults: 'Ересектер', children: 'Балалар (4–12)', type: 'Формат', pickup: 'Трансфер мекенжайы', pickupPh: 'Алматыдағы қонақүй немесе мекенжай', addons: 'Қосымша', name: 'Аты-жөні', phone: 'WhatsApp нөмірі', email: 'Email', pay: 'Төлем', card: 'Карта', kaspi: 'Kaspi', cash: 'Гидке орнында', deposit: 'Қазір алдын ала (20%)', rest: 'Тур күні', total: 'Барлығы', next: 'Әрі қарай', back: 'Артқа', confirm: 'Брондауды растау', confirmed: 'Сіз брондадыңыз!', code: 'Брондау коды', calendar: 'Күнтізбеге', whatsapp: 'WhatsApp-та растау', demo: 'Демо: нақты төлем алынбайды.', hello: 'Сәлеметсіз бе! Мен брондадым', free: 'тегін' },
+  footer: 'Esanov жасаған сайт концепті. QYRAN — ойдан шығарылған туроператор, бағалар мен рейтингтер мысал ретінде.',
+};
+
+const ar: UI = {
+  meta: { title: 'QYRAN — جولات من ألماتي: شارين، كولساي، بحيرة ألماتي الكبرى، صيادو النسور', description: 'جولات جماعية وخاصة من ألماتي مع مرشدين يتحدثون العربية والإنجليزية والهندية والصينية. احجز عبر الإنترنت بعربون 20%.' },
+  nav: { tours: 'الجولات', why: 'لماذا مباشرة', agencies: 'للوكالات', faq: 'أسئلة', contact: 'تواصل', book: 'احجز', lang: 'اللغة', currency: 'العملة' },
+  pre: 'ألماتي · تيان شان',
+  hero: { kicker: 'ألماتي، كازاخستان', title: 'ما وراء <span>المدينة</span>', text: 'أودية وبحيرات جبلية ونسور ذهبية على بعد ساعات من فندقك. مجموعات صغيرة وسيارات خاصة ومرشدون يتحدثون لغتك.', cta: 'اختر جولة', cta2: 'راسلنا على واتساب', rating: 'تقييم الضيوف', travellers: 'مسافر', langs: 'لغات المرشدين' },
+  filters: { all: 'الكل', day: 'رحلات يوم واحد', multi: 'يومان أو أكثر', easy: 'سهلة' },
+  card: { from: 'من', person: 'شخص', h: 'س', d: 'أيام', book: 'احجز', details: 'التفاصيل', level: ['سهل', 'متوسط', 'نشط'], max: 'حتى', hit: 'الأكثر حجزاً' },
+  why: { kicker: 'لماذا الحجز المباشر', title: 'نفس المرشدين. بلا وسيط.', items: [['سعر أفضل', 'لا عمولة لمنصات الحجز، فالسعر الذي تراه هو ما نحصل عليه.'], ['عربون 20%', 'احجز مقعدك عبر الإنترنت وادفع الباقي للمرشد نقداً أو بالبطاقة.'], ['إلغاء مجاني', 'ألغِ قبل 48 ساعة من الجولة واسترد العربون.'], ['لغتك', 'مرشدون بالعربية والإنجليزية والهندية والصينية والروسية. وجبات حلال ونباتية.']] },
+  eagle: { kicker: 'فقط في كازاخستان', title: 'نسر ذهبي على يدك', text: 'تصطاد عائلات البركوتشي بالنسور الذهبية منذ قرون. تعرّف على إحداها وشاهد النسور تحلّق واستمع إلى قصة الرجل الذهبي الذي عُثر عليه قرب ألماتي.', cta: 'جولة النسور' },
+  agencies: { kicker: 'لوكالات السفر', title: 'شريككم في ألماتي', text: 'أسعار صافية وبرامج PDF بلغتكم ومدير على واتساب لمجموعاتكم من الخليج والهند والصين.', cta: 'اطلب أسعار الوكالات' },
+  faq: { title: 'معلومات مفيدة', items: [['ما أفضل موسم؟', 'من مايو إلى أكتوبر للبحيرات والأودية، ومن ديسمبر إلى مارس لشيمبولاك والجولات الشتوية.'], ['من أين تأخذونني؟', 'من أي فندق أو شقة في وسط ألماتي. أخبرنا بالعنوان عند الحجز.'], ['ماذا ألبس؟', 'حذاء مريح وطبقة دافئة، فالطقس في الجبال يتغير بسرعة حتى في الصيف.'], ['كيف أدفع؟', 'عربون 20% بالبطاقة عبر الإنترنت أو عبر Kaspi، والباقي للمرشد.']] },
+  contact: { title: 'أسئلة؟ نرد بسرعة', text: 'راسلنا على واتساب بأي لغة. يرد عليك شخص حقيقي عادة خلال 15 دقيقة.', whatsapp: 'واتساب', now: 'الآن في ألماتي' },
+  tour: { back: 'كل الجولات', duration: 'المدة', distance: 'المسافة', level: 'المستوى', group: 'حجم المجموعة', plan: 'برنامج اليوم', includes: 'يشمل', perPerson: 'للشخص', groupTour: 'مجموعة صغيرة', privateTour: 'سيارة خاصة', perCar: 'للسيارة', bookNow: 'احجز هذه الجولة', km: 'كم', people: 'أشخاص' },
+  booking: { title: 'احجز جولتك', steps: ['التاريخ', 'الضيوف', 'البيانات', 'الدفع'], date: 'اختر التاريخ', soldout: 'مكتمل', few: 'مقاعد قليلة', guests: 'الضيوف', adults: 'البالغون', children: 'الأطفال (4–12)', type: 'نوع الجولة', pickup: 'عنوان الاستقبال', pickupPh: 'اسم الفندق أو العنوان في ألماتي', addons: 'إضافات', name: 'الاسم الكامل', phone: 'رقم واتساب', email: 'البريد الإلكتروني', pay: 'الدفع', card: 'بطاقة', kaspi: 'Kaspi', cash: 'للمرشد', deposit: 'العربون الآن (20%)', rest: 'يوم الجولة', total: 'الإجمالي', next: 'متابعة', back: 'رجوع', confirm: 'تأكيد الحجز', confirmed: 'تم الحجز!', code: 'رمز الحجز', calendar: 'أضف إلى التقويم', whatsapp: 'التأكيد عبر واتساب', demo: 'عرض تجريبي: لا يتم خصم أي مبلغ.', hello: 'مرحباً! لقد حجزت', free: 'مجاناً' },
+  footer: 'تصميم موقع تجريبي من Esanov. QYRAN منظم رحلات وهمي، والأسعار والتقييمات للمثال.',
+};
+
+const zh: UI = {
+  meta: { title: 'QYRAN — 阿拉木图出发：恰林峡谷、科尔赛湖、大阿拉木图湖、金雕猎人 | 官网直订', description: '阿拉木图出发的小团和私家团，配中文、英语、印地语和阿拉伯语导游。在线支付20%定金即可预订。' },
+  nav: { tours: '线路', why: '为何直订', agencies: '旅行社合作', faq: '常见问题', contact: '联系', book: '预订', lang: '语言', currency: '货币' },
+  pre: '阿拉木图 · 天山',
+  hero: { kicker: '哈萨克斯坦 · 阿拉木图', title: '走出<span>城市</span>', text: '峡谷、高山湖泊和金雕，离酒店只有几小时。小团出行、私家车、会说你语言的导游。', cta: '选择线路', cta2: 'WhatsApp咨询', rating: '游客评分', travellers: '位游客', langs: '种导游语言' },
+  filters: { all: '全部', day: '一日游', multi: '两日以上', easy: '轻松' },
+  card: { from: '起', person: '人', h: '小时', d: '天', book: '预订', details: '详情', level: ['轻松', '适中', '运动'], max: '最多', hit: '最受欢迎' },
+  why: { kicker: '为何官网直订', title: '同样的导游，没有中间商。', items: [['价格更优', '没有平台佣金，你看到的价格就是我们收到的价格。'], ['20%定金', '在线锁定座位，余款当天付给导游，现金或刷卡均可。'], ['免费取消', '出发前48小时取消，定金全额退还。'], ['你的语言', '中文、英语、印地语、阿拉伯语和俄语导游。提供清真和素食餐。']] },
+  eagle: { kicker: '只在哈萨克斯坦', title: '手托金雕', text: '金雕猎人家族世代以金雕狩猎。走进他们的生活，看金雕翱翔，听阿拉木图附近出土的“金人”故事。', cta: '查看金雕之旅' },
+  agencies: { kicker: '旅行社合作', title: '您在阿拉木图的地接', text: '净价、您语言的PDF行程，以及为中国、印度和海湾团队服务的WhatsApp专属经理。', cta: '获取同业价' },
+  faq: { title: '出行须知', items: [['什么季节最好？', '5月至10月适合湖泊和峡谷；12月至3月适合琼布拉克滑雪和冬季线路。'], ['在哪里接我？', '阿拉木图市中心任意酒店或公寓，预订时告诉我们地址。'], ['穿什么？', '舒适的鞋和保暖外套，山里即使夏天天气也变化很快。'], ['如何付款？', '在线刷卡或用Kaspi支付20%定金，余款付给导游。']] },
+  contact: { title: '有问题？我们回复很快', text: '用任何语言在WhatsApp留言，通常15分钟内由真人回复。', whatsapp: 'WhatsApp', now: '阿拉木图当前时间' },
+  tour: { back: '全部线路', duration: '时长', distance: '距离', level: '难度', group: '团队人数', plan: '行程安排', includes: '费用包含', perPerson: '每人', groupTour: '小团', privateTour: '私家车', perCar: '每车', bookNow: '预订此线路', km: '公里', people: '人' },
+  booking: { title: '预订线路', steps: ['日期', '人数', '信息', '支付'], date: '选择日期', soldout: '已满', few: '余位少', guests: '人数', adults: '成人', children: '儿童（4–12岁）', type: '出行方式', pickup: '接送地址', pickupPh: '阿拉木图的酒店名称或地址', addons: '附加项目', name: '姓名', phone: 'WhatsApp号码', email: '邮箱', pay: '支付方式', card: '银行卡', kaspi: 'Kaspi', cash: '现场付给导游', deposit: '现付定金（20%）', rest: '当天支付', total: '合计', next: '下一步', back: '返回', confirm: '确认预订', confirmed: '预订成功！', code: '预订码', calendar: '加入日历', whatsapp: '通过WhatsApp确认', demo: '演示：不会产生真实扣款。', hello: '您好！我预订了', free: '免费' },
+  footer: '网站概念由Esanov设计。QYRAN为虚构旅行社，价格和评分仅为示例。',
+};
+
+const hi: UI = {
+  meta: { title: 'QYRAN — अल्माटी टूर: चारिन, कोलसाई, बिग अल्माटी लेक, ईगल शिकारी | सीधे बुक करें', description: 'अल्माटी से छोटे ग्रुप और प्राइवेट टूर, हिंदी, अंग्रेज़ी, अरबी और चीनी बोलने वाले गाइड के साथ। 20% अग्रिम देकर ऑनलाइन बुक करें।' },
+  nav: { tours: 'टूर', why: 'सीधे क्यों', agencies: 'एजेंसियों के लिए', faq: 'सवाल', contact: 'संपर्क', book: 'बुक करें', lang: 'भाषा', currency: 'मुद्रा' },
+  pre: 'अल्माटी · तियान शान',
+  hero: { kicker: 'अल्माटी, कज़ाख़स्तान', title: 'शहर से <span>आगे</span>', text: 'घाटियाँ, पहाड़ी झीलें और गोल्डन ईगल, आपके होटल से बस कुछ घंटे दूर। छोटे ग्रुप, प्राइवेट गाड़ियाँ, आपकी भाषा बोलने वाले गाइड।', cta: 'टूर चुनें', cta2: 'WhatsApp करें', rating: 'मेहमानों की रेटिंग', travellers: 'यात्री', langs: 'गाइड भाषाएँ' },
+  filters: { all: 'सभी', day: 'एक दिन', multi: '2+ दिन', easy: 'आसान' },
+  card: { from: 'से', person: 'व्यक्ति', h: 'घं', d: 'दिन', book: 'बुक करें', details: 'विवरण', level: ['आसान', 'मध्यम', 'सक्रिय'], max: 'अधिकतम', hit: 'सबसे ज़्यादा बुक' },
+  why: { kicker: 'सीधे बुक क्यों करें', title: 'वही गाइड। कोई बिचौलिया नहीं।', items: [['बेहतर कीमत', 'किसी प्लेटफ़ॉर्म का कमीशन नहीं, जो कीमत आप देखते हैं वही हमें मिलती है।'], ['20% अग्रिम', 'ऑनलाइन सीट पक्की करें, बाकी गाइड को नकद या कार्ड से दें।'], ['मुफ़्त कैंसिलेशन', 'टूर से 48 घंटे पहले तक कैंसिल करें और अग्रिम वापस पाएँ।'], ['आपकी भाषा', 'हिंदी, अंग्रेज़ी, अरबी, चीनी और रूसी में गाइड। हलाल और शाकाहारी भोजन।']] },
+  eagle: { kicker: 'सिर्फ़ कज़ाख़स्तान में', title: 'हाथ पर गोल्डन ईगल', text: 'बर्कुतची परिवार सदियों से गोल्डन ईगल के साथ शिकार करते आए हैं। उनसे मिलें, ईगल को उड़ते देखें और अल्माटी के पास मिले स्वर्ण पुरुष की कहानी सुनें।', cta: 'ईगल टूर देखें' },
+  agencies: { kicker: 'ट्रैवल एजेंसियों के लिए', title: 'अल्माटी में आपका DMC', text: 'नेट रेट, आपकी भाषा में PDF यात्रा कार्यक्रम और भारत, खाड़ी और चीन के ग्रुप के लिए WhatsApp पर मैनेजर।', cta: 'एजेंसी रेट पाएँ' },
+  faq: { title: 'जानने योग्य बातें', items: [['सबसे अच्छा मौसम कौन-सा है?', 'झीलों और घाटियों के लिए मई से अक्टूबर; शिम्बुलाक और सर्दियों के टूर के लिए दिसंबर से मार्च।'], ['आप मुझे कहाँ से लेंगे?', 'अल्माटी के केंद्र में किसी भी होटल या अपार्टमेंट से। बुकिंग के समय पता बताएँ।'], ['क्या पहनें?', 'आरामदायक जूते और गर्म कपड़े, पहाड़ों में मौसम गर्मियों में भी जल्दी बदलता है।'], ['भुगतान कैसे करें?', '20% अग्रिम कार्ड से ऑनलाइन या Kaspi से, बाकी गाइड को।']] },
+  contact: { title: 'सवाल हैं? हम जल्दी जवाब देते हैं', text: 'किसी भी भाषा में WhatsApp करें। आमतौर पर 15 मिनट में असली व्यक्ति जवाब देता है।', whatsapp: 'WhatsApp', now: 'अल्माटी में अभी' },
+  tour: { back: 'सभी टूर', duration: 'अवधि', distance: 'दूरी', level: 'स्तर', group: 'ग्रुप साइज़', plan: 'दिन का कार्यक्रम', includes: 'शामिल', perPerson: 'प्रति व्यक्ति', groupTour: 'छोटा ग्रुप', privateTour: 'प्राइवेट गाड़ी', perCar: 'प्रति गाड़ी', bookNow: 'यह टूर बुक करें', km: 'किमी', people: 'लोग' },
+  booking: { title: 'अपना टूर बुक करें', steps: ['तारीख़', 'मेहमान', 'विवरण', 'भुगतान'], date: 'तारीख़ चुनें', soldout: 'भरा हुआ', few: 'कुछ सीटें', guests: 'मेहमान', adults: 'वयस्क', children: 'बच्चे (4–12)', type: 'टूर का प्रकार', pickup: 'पिकअप पता', pickupPh: 'अल्माटी में होटल का नाम या पता', addons: 'अतिरिक्त', name: 'पूरा नाम', phone: 'WhatsApp नंबर', email: 'ईमेल', pay: 'भुगतान', card: 'कार्ड', kaspi: 'Kaspi', cash: 'गाइड को', deposit: 'अभी अग्रिम (20%)', rest: 'टूर के दिन', total: 'कुल', next: 'आगे', back: 'पीछे', confirm: 'बुकिंग पक्की करें', confirmed: 'बुकिंग हो गई!', code: 'बुकिंग कोड', calendar: 'कैलेंडर में जोड़ें', whatsapp: 'WhatsApp पर पुष्टि पाएँ', demo: 'डेमो: कोई असली भुगतान नहीं लिया जाता।', hello: 'नमस्ते! मैंने बुक किया', free: 'मुफ़्त' },
+  footer: 'Esanov द्वारा वेबसाइट कॉन्सेप्ट। QYRAN एक काल्पनिक टूर ऑपरेटर है, कीमतें और रेटिंग उदाहरण हैं।',
+};
+
+export const ui: Record<Lang, UI> = { en, ru, kk, ar, zh, hi };

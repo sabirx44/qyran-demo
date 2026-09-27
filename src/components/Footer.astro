@@ -1,0 +1,28 @@
+---
+import Btn from './Btn.astro';
+import Logo from './Logo.astro';
+import Poster from './Poster.astro';
+import { ui } from '../i18n/ui';
+import type { Lang } from '../i18n/langs';
+import { operator } from '../data/tours';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<footer id="contact" class="relative isolate scroll-mt-20 overflow-hidden bg-night text-white">
+  <div class="absolute inset-x-0 bottom-0 -z-10 h-[70%] opacity-35"><Poster scene="eagle" id="footer" sun={false} /></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-night via-night/80 to-night/40"></div>
+  <div class="mx-auto max-w-[1440px] px-4 pb-8 pt-20 md:px-10 lg:pt-28">
+    <h2 class="display t-xl max-w-[12ch]" data-split>{t.contact.title}</h2>
+    <p class="mt-5 max-w-[42ch] text-white/75" data-reveal>{t.contact.text}</p>
+    <div class="mt-8 flex flex-wrap gap-3" data-reveal>
+      <Btn href={`https://wa.me/${operator.whatsapp}`} target="_blank" variant="gold" cursor="WhatsApp">{t.contact.whatsapp}</Btn>
+      <a href={`mailto:${operator.email}`} class="kbtn kbtn-glass press">{operator.email}</a>
+    </div>
+    <div class="mt-16 flex flex-wrap items-end justify-between gap-6 border-t border-white/15 pt-8">
+      <div class="flex items-center gap-3"><Logo class="size-12" /><span><b class="block text-[15px]">{operator.name}</b><span class="text-[13px] text-white/60">Almaty · Kazakhstan</span></span></div>
+      <p class="text-end"><span class="block text-[12px] font-bold uppercase tracking-[.18em] text-white/50 rtl:tracking-normal">{t.contact.now}</span><b class="num text-[24px]" data-clock="Asia/Almaty"></b></p>
+    </div>
+    <p class="mt-8 text-[12px] text-white/50">{t.footer}</p>
+  </div>
+</footer>

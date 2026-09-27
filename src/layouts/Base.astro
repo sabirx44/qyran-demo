@@ -1,0 +1,43 @@
+---
+import '../styles/qy.css';
+import { langs, langMeta, path, type Lang } from '../i18n/langs';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  page?: string; // path after the language prefix, e.g. "/" or "/menu/"
+  schema?: Record<string, unknown>;
+  smooth?: boolean;
+  noindex?: boolean;
+}
+const { lang, title, description, page = '/', schema, smooth = true, noindex = true } = Astro.props;
+const site = Astro.site!;
+const url = (l: Lang) => new URL(path(l, page), site).href;
+---
+<!doctype html>
+<html lang={lang} dir={langMeta[lang].dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url(lang)} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={url(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={url('en')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url(lang)} />
+    <meta property="og:locale" content={langMeta[lang].locale.replace('-', '_')} />
+    <meta name="theme-color" content="#0C2233" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body data-smooth={smooth ? '' : undefined}>
+    <slot />
+    <script>import '../scripts/motion';</script>
+  </body>
+</html>

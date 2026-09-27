@@ -1,0 +1,257 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import Poster from '../../../components/Poster.astro';
+import TourCard from '../../../components/TourCard.astro';
+import { ui } from '../../../i18n/ui';
+import { langs, langMeta, path, defaultLang, type Lang } from '../../../i18n/langs';
+import { tours, addons, operator, type Tour } from '../../../data/tours';
+
+export function getStaticPaths() {
+  return langs.flatMap((l) => tours.map((tour) => ({ params: { lang: l === defaultLang ? undefined : l, slug: tour.slug }, props: { lang: l, tour } })));
+}
+const { lang, tour } = Astro.props as { lang: Lang; tour: Tour };
+const t = ui[lang];
+const b = t.booking;
+const dur = tour.days > 1 ? `${tour.days} ${t.card.d}` : `${tour.hours} ${t.card.h}`;
+const facts: [string, string][] = [[t.tour.duration, dur], [t.tour.distance, `${tour.km} ${t.tour.km}`], [t.tour.level, t.card.level[tour.level - 1]], [t.tour.group, `${t.card.max} ${tour.maxGroup}`]];
+const more = tours.filter((x) => x.slug !== tour.slug).slice(0, 3);
+const bookData = {
+  slug: tour.slug, name: tour.name[lang], group: tour.group, privateCar: tour.privateCar, maxGroup: tour.maxGroup, hours: tour.hours,
+  addons: addons.map((a) => ({ id: a.id, usd: a.usd, name: a.name[lang] })), wa: operator.whatsapp, locale: langMeta[lang].locale, t: b,
+  months: [...Array(12)].map((_, m) => new Date(2026, m, 1).toLocaleDateString(langMeta[lang].locale, { month: 'long', year: 'numeric' })),
+  days: [...Array(7)].map((_, d) => new Date(2026, 5, 1 + d).toLocaleDateString(langMeta[lang].locale, { weekday: 'narrow' })), // 1 June 2026 is a Monday
+};
+const schema = {
+  '@context': 'https://schema.org', '@type': 'TouristTrip', name: tour.name[lang], description: tour.short[lang], inLanguage: langMeta[lang].locale,
+  offers: { '@type': 'Offer', price: tour.group, priceCurrency: 'USD' }, provider: { '@type': 'TravelAgency', name: `${operator.name} (concept)` },
+};
+const chevron = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+---
+<Base lang={lang} title={`${tour.name[lang]} — ${operator.name}`} description={tour.short[lang]} page={`/tours/${tour.slug}/`} schema={schema}>
+  <div class="kprogress" data-progress-bar aria-hidden="true"></div>
+  <div class="kcursor" data-cursor-el aria-hidden="true"><span class="kcursor-dot"></span><span class="kcursor-label" data-cursor-label></span></div>
+  <Header lang={lang} page={`/tours/${tour.slug}/`} />
+
+  <section class="relative isolate overflow-hidden" data-hero>
+    <div class="absolute inset-0 -z-10" data-hero-img><Poster scene={tour.scene} id={`hero-${tour.slug}`} /></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-night/90 via-night/25 to-night/30"></div>
+    <div class="mx-auto flex min-h-[72svh] max-w-[1440px] flex-col justify-end px-4 pb-8 pt-24 text-white md:min-h-[78svh] md:px-10 md:pb-12">
+      <a href={`${path(lang)}#tours`} class="mb-auto flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-[14px] font-semibold backdrop-blur"><svg viewBox="0 0 24 24" class="size-4 rtl:-scale-x-100" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>{t.tour.back}</a>
+      <p class="mt-10 flex items-center gap-2 text-[14px] font-semibold"><svg viewBox="0 0 24 24" class="size-4 text-gold" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" /></svg><span class="num">{tour.rating.toFixed(1)} · {tour.reviews.toLocaleString('en-US')}</span></p>
+      <h1 class="display t-xl mt-2 max-w-[14ch]" data-split>{tour.name[lang]}</h1>
+      <p class="mt-3 max-w-[46ch] text-white/85" data-reveal>{tour.short[lang]}</p>
+    </div>
+  </section>
+
+  <section class="py-8 md:py-14">
+    <div class="mx-auto grid max-w-[1440px] gap-10 px-4 md:px-10 lg:grid-cols-[1fr_400px] lg:gap-14">
+      <div>
+        <dl class="grid grid-cols-2 gap-2 sm:grid-cols-4" data-reveal>
+          {facts.map(([k, v]) => <div class="rounded-[18px] bg-white p-4 ring-1 ring-line"><dt class="text-[12px] text-stone">{k}</dt><dd class="mt-1 text-[17px] font-bold num">{v}</dd></div>)}
+        </dl>
+        <h2 class="display t-l mt-12" data-reveal>{t.tour.plan}</h2>
+        <ol class="relative mt-6 space-y-5 border-s-2 border-dashed border-line ps-6">
+          {tour.plan.map((p, i) => <li class="relative" data-reveal><span class="absolute -start-[33px] top-0.5 grid size-4 place-items-center rounded-full bg-gold ring-4 ring-snow"></span><p class="text-[16px] font-semibold">{p[lang]}</p></li>)}
+        </ol>
+        <h2 class="display t-l mt-12" data-reveal>{t.tour.includes}</h2>
+        <ul class="mt-5 flex flex-wrap gap-2" data-reveal>{tour.includes.map((x) => <li class="chip !min-h-10 gap-2"><svg viewBox="0 0 24 24" class="size-4 text-sky" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>{x[lang]}</li>)}</ul>
+      </div>
+
+      <!-- Desktop booking card -->
+      <aside class="hidden h-fit rounded-[26px] bg-white p-6 ring-1 ring-line lg:sticky lg:top-24 lg:block">
+        <p class="text-[13px] text-stone">{t.card.from}</p>
+        <p><b class="display num text-[56px] leading-none" dir="ltr" data-usd={tour.group}>${tour.group}</b> <span class="text-stone">{t.tour.perPerson}</span></p>
+        <p class="mt-2 text-[14px] text-stone">{t.tour.privateTour}: <b class="num text-night" dir="ltr" data-usd={tour.privateCar}>${tour.privateCar}</b> {t.tour.perCar}</p>
+        <button type="button" class="kbtn kbtn-gold press mt-6 w-full" data-book-open><span>{t.tour.bookNow}</span><span class="ico" set:html={chevron + chevron} /></button>
+        <p class="mt-4 text-[13px] text-stone">{t.why.items[1][1]}</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="border-t border-line py-14">
+    <div class="mx-auto max-w-[1440px] px-4 md:px-10">
+      <h2 class="display t-l" data-split>{t.nav.tours}</h2>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">{more.map((x) => <TourCard tour={x} lang={lang} />)}</div>
+    </div>
+  </section>
+  <Footer lang={lang} />
+
+  <!-- Phone booking bar: always in thumb reach -->
+  <div class="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-line bg-snow/95 px-4 pb-[calc(10px+env(safe-area-inset-bottom))] pt-2.5 backdrop-blur lg:hidden">
+    <p class="me-auto leading-tight"><span class="block text-[12px] text-stone">{t.card.from}</span><b class="num text-[22px]" dir="ltr" data-usd={tour.group}>${tour.group}</b><span class="text-[12px] text-stone"> / {t.card.person}</span></p>
+    <button type="button" class="kbtn kbtn-gold press !min-h-12 !px-7" data-book-open>{t.card.book}</button>
+  </div>
+
+  <!-- Booking flow -->
+  <dialog class="sheet" data-book aria-label={b.title}>
+    <div class="sheet-body">
+      <span class="grab"></span>
+      <div class="flex items-center justify-between gap-3">
+        <div class="min-w-0"><p class="truncate text-[13px] font-semibold text-stone">{tour.name[lang]}</p><h2 class="display text-[34px] leading-none" data-step-title>{b.title}</h2></div>
+        <button type="button" class="step shrink-0" data-book-close aria-label="×">×</button>
+      </div>
+      <ol class="mt-4 grid grid-cols-4 gap-1.5" data-progress>{b.steps.map((s) => <li class="text-[11px] font-semibold text-stone"><span class="mb-1.5 block h-1.5 rounded-full bg-line transition-colors"></span>{s}</li>)}</ol>
+
+      <!-- 1. Date -->
+      <section class="mt-5" data-pane="0">
+        <div class="flex items-center justify-between"><button type="button" class="step" data-month="-1" aria-label="‹"><span class="rtl:-scale-x-100">‹</span></button><b class="text-[16px] capitalize" data-month-label></b><button type="button" class="step" data-month="1" aria-label="›"><span class="rtl:-scale-x-100">›</span></button></div>
+        <div class="cal mt-3 text-center text-[12px] font-semibold text-stone">{bookData.days.map((d) => <span>{d}</span>)}</div>
+        <div class="cal mt-1" data-cal></div>
+      </section>
+
+      <!-- 2. Guests -->
+      <section class="mt-5 hidden space-y-5" data-pane="1">
+        <div class="grid grid-cols-2 gap-2" role="radiogroup" aria-label={b.type}>
+          <button type="button" class="chip !min-h-14 !rounded-[16px] justify-center flex-col !gap-0" aria-pressed="true" data-type="group"><b>{t.tour.groupTour}</b><span class="text-[12px] font-medium opacity-70" dir="ltr" data-usd={tour.group}></span></button>
+          <button type="button" class="chip !min-h-14 !rounded-[16px] justify-center flex-col !gap-0" aria-pressed="false" data-type="private"><b>{t.tour.privateTour}</b><span class="text-[12px] font-medium opacity-70" dir="ltr" data-usd={tour.privateCar}></span></button>
+        </div>
+        {([['adults', b.adults], ['children', b.children]] as const).map(([k, label]) => (
+          <div class="flex items-center justify-between gap-4"><span class="font-semibold">{label}</span><span class="flex items-center gap-3"><button type="button" class="step" data-dec={k} aria-label="−">−</button><b class="num w-6 text-center text-[18px]" data-count-of={k}></b><button type="button" class="step" data-inc={k} aria-label="+">+</button></span></div>
+        ))}
+        <label class="block"><span class="text-[13px] font-semibold text-stone">{b.pickup}</span><input class="input mt-1.5" placeholder={b.pickupPh} autocomplete="street-address" data-f="pickup" /></label>
+        <div><p class="text-[13px] font-semibold text-stone">{b.addons}</p><div class="mt-2 flex flex-wrap gap-2">{addons.map((a) => <button type="button" class="chip" aria-pressed="false" data-addon={a.id}>{a.name[lang]} <span class="text-[12px] opacity-70" dir="ltr" data-usd-or-free={a.usd}></span></button>)}</div></div>
+      </section>
+
+      <!-- 3. Details -->
+      <section class="mt-5 hidden space-y-3" data-pane="2">
+        <label class="block"><span class="text-[13px] font-semibold text-stone">{b.name}</span><input class="input mt-1.5" autocomplete="name" data-f="name" required /></label>
+        <label class="block"><span class="text-[13px] font-semibold text-stone">{b.phone}</span><input class="input mt-1.5" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 / +971 / +86 / +7" dir="ltr" data-f="phone" required /></label>
+        <label class="block"><span class="text-[13px] font-semibold text-stone">{b.email}</span><input class="input mt-1.5" type="email" inputmode="email" autocomplete="email" dir="ltr" data-f="email" /></label>
+      </section>
+
+      <!-- 4. Pay -->
+      <section class="mt-5 hidden space-y-4" data-pane="3">
+        <div class="grid grid-cols-3 gap-2">{([['card', b.card], ['kaspi', b.kaspi], ['cash', b.cash]] as const).map(([k, l], i) => <button type="button" class="chip !min-h-14 !rounded-[16px] justify-center text-center !text-[13px] leading-tight" aria-pressed={i === 0 ? 'true' : 'false'} data-pay={k}>{l}</button>)}</div>
+        <div class="rounded-[20px] bg-white p-4 ring-1 ring-line" data-summary></div>
+        <p class="text-[12px] text-stone">{b.demo}</p>
+      </section>
+
+      <!-- 5. Ticket -->
+      <section class="mt-2 hidden" data-pane="4">
+        <div class="overflow-hidden rounded-[24px] bg-night text-white">
+          <div class="relative h-32"><Poster scene={tour.scene} id={`ticket-${tour.slug}`} /><span class="absolute inset-0 bg-gradient-to-t from-night to-transparent"></span><p class="display absolute bottom-3 start-4 end-4 text-[26px] leading-none">{tour.name[lang]}</p></div>
+          <div class="grid grid-cols-[1fr_auto] gap-4 p-4">
+            <dl class="space-y-2 text-[14px]" data-ticket></dl>
+            <div class="size-28 rounded-2xl bg-white p-2" data-qr></div>
+          </div>
+          <div class="border-t border-dashed border-white/20 px-4 py-3 text-[12px] text-white/60">{b.code}: <b class="num text-gold-2" data-code></b></div>
+        </div>
+        <div class="mt-4 grid gap-2">
+          <a href="#" target="_blank" rel="noopener" class="kbtn kbtn-gold press w-full" data-wa-confirm>{b.whatsapp}</a>
+          <button type="button" class="kbtn kbtn-line press w-full" data-ics>{b.calendar}</button>
+        </div>
+      </section>
+
+      <div class="sticky bottom-0 -mx-[18px] mt-6 flex items-center gap-3 bg-snow px-[18px] pt-3 md:-mx-7 md:px-7" data-nav>
+        <button type="button" class="kbtn kbtn-line press !min-h-12 !px-4" data-back>{b.back}</button>
+        <p class="me-auto leading-tight"><span class="block text-[12px] text-stone">{b.total}</span><b class="num text-[20px]" dir="ltr" data-total></b></p>
+        <button type="button" class="kbtn kbtn-gold press !min-h-12 !px-6" data-next>{b.next}</button>
+      </div>
+    </div>
+  </dialog>
+  <script type="application/json" id="book-data" set:html={JSON.stringify(bookData)} />
+</Base>
+
+<script>
+  import QRCode from 'qrcode';
+  const D = JSON.parse(document.getElementById('book-data')!.textContent!);
+  const T = D.t;
+  const $ = <E extends HTMLElement = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<E>(s)!;
+  const $$ = <E extends HTMLElement = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<E>(s)];
+  const money = (usd: number) => (window as any).qyMoney?.fmt(usd) ?? `$${usd}`;
+  const sheet = $<HTMLDialogElement>('[data-book]');
+
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const st = { step: 0, month: new Date(today.getFullYear(), today.getMonth(), 1), date: null as Date | null, type: 'group', adults: 2, children: 0, addons: new Set<string>(), pay: 'card', code: '' };
+
+  // Seats per date: deterministic so the demo looks the same for everyone
+  const seats = (d: Date) => { const h = (d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate() + D.slug.length * 7) % 17; return h === 0 || h === 5 ? 0 : h < 3 ? 2 : 8; };
+
+  function calendar() {
+    const m = st.month, first = (new Date(m.getFullYear(), m.getMonth(), 1).getDay() + 6) % 7;
+    const days = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+    $('[data-month-label]').textContent = D.months[m.getMonth()].replace('2026', String(m.getFullYear()));
+    const cells = Array.from({ length: first }, () => '<span></span>');
+    for (let d = 1; d <= days; d++) {
+      const date = new Date(m.getFullYear(), m.getMonth(), d);
+      const s = seats(date), past = date <= today;
+      const on = st.date?.getTime() === date.getTime();
+      cells.push(`<button type="button" ${past || !s ? 'disabled' : ''} class="${s === 2 ? 'low' : ''}" aria-pressed="${on}" data-day="${d}">${d}${!past ? `<small>${!s ? T.soldout : s === 2 ? T.few : ''}</small>` : ''}</button>`);
+    }
+    $('[data-cal]').innerHTML = cells.join('');
+  }
+  function total() {
+    const people = st.adults + st.children;
+    const base = st.type === 'group' ? st.adults * D.group + Math.round(st.children * D.group * 0.7) : Math.ceil(people / 4) * D.privateCar;
+    const extras = D.addons.filter((a: any) => st.addons.has(a.id)).reduce((s: number, a: any) => s + a.usd, 0);
+    return base + extras;
+  }
+  function render() {
+    $$('[data-pane]').forEach((p) => p.classList.toggle('hidden', Number(p.dataset.pane) !== st.step));
+    $$('[data-progress] li span').forEach((s, i) => (s.style.background = i <= st.step ? 'var(--color-gold)' : ''));
+    $('[data-progress]').classList.toggle('hidden', st.step === 4);
+    $('[data-nav]').classList.toggle('hidden', st.step === 4);
+    $('[data-back]').style.visibility = st.step === 0 ? 'hidden' : 'visible';
+    $('[data-step-title]').textContent = st.step === 0 ? T.date : st.step === 4 ? T.confirmed : T.steps[st.step];
+    $('[data-next]').textContent = st.step === 3 ? T.confirm : T.next;
+    $<HTMLButtonElement>('[data-next]').disabled = (st.step === 0 && !st.date);
+    $('[data-count-of="adults"]').textContent = String(st.adults);
+    $('[data-count-of="children"]').textContent = String(st.children);
+    $$('[data-usd-or-free]').forEach((e) => (e.textContent = Number(e.dataset.usdOrFree) ? `+${money(Number(e.dataset.usdOrFree))}` : T.free));
+    const sum = total();
+    $('[data-total]').textContent = money(sum);
+    if (st.step === 0) calendar();
+    if (st.step === 3) {
+      const dep = st.pay === 'cash' ? 0 : Math.round(sum * 0.2);
+      $('[data-summary]').innerHTML = `<p class="flex justify-between"><span class="text-stone">${T.deposit}</span><b class="num" dir="ltr">${money(dep)}</b></p><p class="mt-1 flex justify-between"><span class="text-stone">${T.rest}</span><b class="num" dir="ltr">${money(sum - dep)}</b></p><p class="mt-3 flex justify-between border-t border-line pt-3 text-[18px]"><b>${T.total}</b><b class="num" dir="ltr">${money(sum)}</b></p>`;
+    }
+    (window as any).qyPaint?.();
+  }
+  const val = (k: string) => ($<HTMLInputElement>(`[data-f="${k}"]`).value || '').trim();
+  const dateText = () => st.date!.toLocaleDateString(D.locale, { weekday: 'short', day: 'numeric', month: 'long' });
+
+  async function confirm() {
+    st.code = `QY-${D.slug.slice(0, 3).toUpperCase()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+    const rows: [string, string][] = [[T.steps[0], dateText()], [T.guests, `⁦${st.adults} + ${st.children}⁩`], [T.pickup, val('pickup') || '—'], [T.total, money(total())]];
+    $('[data-ticket]').innerHTML = rows.map(([k, v]) => `<div><dt class="text-[11px] text-white/55">${k}</dt><dd class="font-semibold">${v.replace(/</g, '&lt;')}</dd></div>`).join('');
+    $('[data-code]').textContent = st.code;
+    $('[data-qr]').innerHTML = await QRCode.toString(`${location.origin}${location.pathname}?booking=${st.code}`, { type: 'svg', margin: 0, color: { dark: '#0C2233', light: '#FFFFFF' } });
+    const msg = `${T.hello}: ${D.name}\n${dateText()} · ${st.adults}+${st.children}\n${T.code}: ${st.code}\n${val('name')} ${val('phone')}`;
+    $<HTMLAnchorElement>('[data-wa-confirm]').href = `https://wa.me/${D.wa}?text=${encodeURIComponent(msg)}`;
+    st.step = 4; render();
+  }
+
+  sheet.addEventListener('click', async (e) => {
+    const el = e.target as HTMLElement;
+    if (el === sheet || el.closest('[data-book-close]')) return sheet.close();
+    const day = el.closest<HTMLElement>('[data-day]');
+    if (day) { st.date = new Date(st.month.getFullYear(), st.month.getMonth(), Number(day.dataset.day)); navigator.vibrate?.(8); return render(); }
+    const mo = el.closest<HTMLElement>('[data-month]');
+    if (mo) { const n = new Date(st.month.getFullYear(), st.month.getMonth() + Number(mo.dataset.month), 1); if (n >= new Date(today.getFullYear(), today.getMonth(), 1)) { st.month = n; render(); } return; }
+    const ty = el.closest<HTMLElement>('[data-type]');
+    if (ty) { st.type = ty.dataset.type!; $$('[data-type]').forEach((b) => b.setAttribute('aria-pressed', String(b === ty))); return render(); }
+    const inc = el.closest<HTMLElement>('[data-inc]'), dec = el.closest<HTMLElement>('[data-dec]');
+    if (inc || dec) { const k = (inc ?? dec)!.dataset[inc ? 'inc' : 'dec'] as 'adults' | 'children'; const min = k === 'adults' ? 1 : 0; st[k] = Math.max(min, Math.min(D.maxGroup, st[k] + (inc ? 1 : -1))); return render(); }
+    const ad = el.closest<HTMLElement>('[data-addon]');
+    if (ad) { const id = ad.dataset.addon!; st.addons.has(id) ? st.addons.delete(id) : st.addons.add(id); ad.setAttribute('aria-pressed', String(st.addons.has(id))); return render(); }
+    const pay = el.closest<HTMLElement>('[data-pay]');
+    if (pay) { st.pay = pay.dataset.pay!; $$('[data-pay]').forEach((b) => b.setAttribute('aria-pressed', String(b === pay))); return render(); }
+    if (el.closest('[data-back]')) { st.step = Math.max(0, st.step - 1); return render(); }
+    if (el.closest('[data-next]')) {
+      if (st.step === 2 && (!val('name') || val('phone').replace(/\D/g, '').length < 7)) { $<HTMLInputElement>(!val('name') ? '[data-f="name"]' : '[data-f="phone"]').focus(); return; }
+      if (st.step === 3) return confirm();
+      st.step++; return render();
+    }
+    if (el.closest('[data-ics]')) {
+      const d = st.date!, pad = (n: number) => String(n).padStart(2, '0');
+      const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+      const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//QYRAN//demo//EN', 'BEGIN:VEVENT', `UID:${st.code}@qyran`, `DTSTART;TZID=Asia/Almaty:${ymd}T063000`, `DURATION:PT${D.hours}H`, `SUMMARY:${D.name}`, `DESCRIPTION:${T.code} ${st.code}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      Object.assign(document.createElement('a'), { href: url, download: `${st.code}.ics` }).click();
+    }
+  });
+  document.querySelectorAll('[data-book-open]').forEach((b) => b.addEventListener('click', () => { if (st.step === 4) st.step = 0; render(); sheet.showModal(); }));
+  document.addEventListener('qy-currency', render);
+</script>

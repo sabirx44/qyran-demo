@@ -1,0 +1,10 @@
+---
+// Pill button with a round icon: fill-on-hover, sliding arrow, magnetic pull.
+interface Props { href: string; variant?: 'gold' | 'night' | 'line' | 'glass'; cursor?: string; class?: string; icon?: boolean; target?: string }
+const { href, variant = 'gold', cursor, class: cls = '', icon = true, target } = Astro.props;
+const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+---
+<a href={href} target={target} rel={target ? 'noopener' : undefined} class:list={['kbtn press', `kbtn-${variant}`, !icon && 'no-ico', cls]} data-magnetic="0.25" data-cursor={cursor}>
+  <span><slot /></span>
+  {icon && <span class="ico" set:html={arrow + arrow} />}
+</a>
