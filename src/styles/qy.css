@@ -62,7 +62,7 @@ html[lang="zh"] { --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans S
   .kick::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 3px rgba(242,178,51,.25); }
   .num { font-variant-numeric: tabular-nums; }
 
-  .kbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 54px; padding-inline: 24px; border-radius: 16px; overflow: hidden; isolation: isolate; font-weight: 700; font-size: 16px; white-space: nowrap; transition: color .4s var(--ease), transform .15s; }
+  .kbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 54px; max-width: 100%; min-width: 0; padding-inline: 24px; border-radius: 16px; overflow: hidden; isolation: isolate; font-weight: 700; font-size: 16px; white-space: normal; line-height: 1.15; text-align: center; transition: color .4s var(--ease), transform .15s; }
   .kbtn::before { content: ""; position: absolute; inset: 0; z-index: -1; transform: translateY(101%); transition: transform .5s var(--ease); background: var(--kbtn-fill, var(--color-night)); }
   .kbtn:hover::before { transform: translateY(0); }
   .kbtn:active { transform: scale(.97); }
@@ -145,3 +145,6 @@ html:not(.js) .kpre { display: none; }
 }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+/* A button label may shrink and wrap next to its icon instead of pushing out of the button */
+.kbtn > span:not(.ico) { min-width: 0; }

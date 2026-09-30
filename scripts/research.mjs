@@ -2,7 +2,7 @@
 // Usage: node scripts/research.mjs name=url name=url ...
 import puppeteer from 'puppeteer-core';
 import { mkdirSync, writeFileSync } from 'node:fs';
-const out = 'C:/Websites/inspiration/travel';
+const out = process.env.OUT || 'C:/Websites/inspiration/travel';
 mkdirSync(out, { recursive: true });
 const browser = await puppeteer.launch({ executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true });
 const hideOverlays = () => {

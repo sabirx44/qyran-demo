@@ -14,7 +14,7 @@ const en = {
   contact: { title: 'Questions? We answer fast', text: 'Write on WhatsApp in any language. A real person replies, usually within 15 minutes.', whatsapp: 'WhatsApp', now: 'Now in Almaty' },
   tour: { back: 'All tours', duration: 'Duration', distance: 'Distance', level: 'Level', group: 'Group size', plan: 'The day', includes: 'Included', perPerson: 'per person', groupTour: 'Small group', privateTour: 'Private car', perCar: 'per car', bookNow: 'Book this tour', km: 'km', people: 'people' },
   booking: { title: 'Book your tour', steps: ['Date', 'Guests', 'Details', 'Pay'], date: 'Choose a date', soldout: 'Full', few: 'last seats', guests: 'Guests', adults: 'Adults', children: 'Children (4–12)', type: 'Tour type', pickup: 'Pickup address', pickupPh: 'Hotel name or address in Almaty', addons: 'Extras', name: 'Full name', phone: 'WhatsApp number', email: 'Email', pay: 'Payment', card: 'Card', kaspi: 'Kaspi', cash: 'Pay the guide', deposit: 'Deposit now (20%)', rest: 'Pay on the day', total: 'Total', next: 'Continue', back: 'Back', confirm: 'Confirm booking', confirmed: 'You are booked!', code: 'Booking code', calendar: 'Add to calendar', whatsapp: 'Get confirmation on WhatsApp', demo: 'Demo: no real payment is taken.', hello: 'Hello! I booked', free: 'free' },
-  footer: 'Website concept by Esanov. QYRAN is a fictional tour operator; prices and ratings are examples.',
+  footer: 'Website concept by SABR. QYRAN is a fictional tour operator; prices and ratings are examples.',
 };
 type UI = typeof en;
 
@@ -32,7 +32,7 @@ const ru: UI = {
   contact: { title: 'Есть вопросы? Отвечаем быстро', text: 'Пишите в WhatsApp на любом языке. Отвечает живой человек, обычно за 15 минут.', whatsapp: 'WhatsApp', now: 'Сейчас в Алматы' },
   tour: { back: 'Все туры', duration: 'Длительность', distance: 'Расстояние', level: 'Сложность', group: 'Группа', plan: 'Программа', includes: 'Включено', perPerson: 'за человека', groupTour: 'Мини-группа', privateTour: 'Своя машина', perCar: 'за машину', bookNow: 'Забронировать тур', km: 'км', people: 'чел.' },
   booking: { title: 'Бронирование', steps: ['Дата', 'Гости', 'Данные', 'Оплата'], date: 'Выберите дату', soldout: 'Нет мест', few: 'мало мест', guests: 'Гости', adults: 'Взрослые', children: 'Дети (4–12)', type: 'Формат', pickup: 'Адрес трансфера', pickupPh: 'Отель или адрес в Алматы', addons: 'Дополнительно', name: 'Имя и фамилия', phone: 'Номер WhatsApp', email: 'Email', pay: 'Оплата', card: 'Карта', kaspi: 'Kaspi', cash: 'Гиду на месте', deposit: 'Предоплата сейчас (20%)', rest: 'В день тура', total: 'Итого', next: 'Далее', back: 'Назад', confirm: 'Подтвердить бронь', confirmed: 'Вы забронировали!', code: 'Код брони', calendar: 'В календарь', whatsapp: 'Подтверждение в WhatsApp', demo: 'Демо: реальная оплата не списывается.', hello: 'Здравствуйте! Я забронировал', free: 'бесплатно' },
-  footer: 'Концепт сайта от Esanov. QYRAN — вымышленный туроператор, цены и рейтинги для примера.',
+  footer: 'Концепт сайта от SABR. QYRAN — вымышленный туроператор, цены и рейтинги для примера.',
 };
 
 const kk: UI = {
@@ -49,7 +49,7 @@ const kk: UI = {
   contact: { title: 'Сұрақ бар ма? Тез жауап береміз', text: 'WhatsApp-қа кез келген тілде жазыңыз. Әдетте 15 минутта нақты адам жауап береді.', whatsapp: 'WhatsApp', now: 'Қазір Алматыда' },
   tour: { back: 'Барлық турлар', duration: 'Ұзақтығы', distance: 'Қашықтығы', level: 'Күрделілігі', group: 'Топ', plan: 'Бағдарлама', includes: 'Қамтылған', perPerson: 'бір адамға', groupTour: 'Шағын топ', privateTour: 'Жеке көлік', perCar: 'көлікке', bookNow: 'Турды брондау', km: 'км', people: 'адам' },
   booking: { title: 'Брондау', steps: ['Күн', 'Қонақтар', 'Мәлімет', 'Төлем'], date: 'Күнді таңдаңыз', soldout: 'Орын жоқ', few: 'орын аз', guests: 'Қонақтар', adults: 'Ересектер', children: 'Балалар (4–12)', type: 'Формат', pickup: 'Трансфер мекенжайы', pickupPh: 'Алматыдағы қонақүй немесе мекенжай', addons: 'Қосымша', name: 'Аты-жөні', phone: 'WhatsApp нөмірі', email: 'Email', pay: 'Төлем', card: 'Карта', kaspi: 'Kaspi', cash: 'Гидке орнында', deposit: 'Қазір алдын ала (20%)', rest: 'Тур күні', total: 'Барлығы', next: 'Әрі қарай', back: 'Артқа', confirm: 'Брондауды растау', confirmed: 'Сіз брондадыңыз!', code: 'Брондау коды', calendar: 'Күнтізбеге', whatsapp: 'WhatsApp-та растау', demo: 'Демо: нақты төлем алынбайды.', hello: 'Сәлеметсіз бе! Мен брондадым', free: 'тегін' },
-  footer: 'Esanov жасаған сайт концепті. QYRAN — ойдан шығарылған туроператор, бағалар мен рейтингтер мысал ретінде.',
+  footer: 'SABR жасаған сайт концепті. QYRAN — ойдан шығарылған туроператор, бағалар мен рейтингтер мысал ретінде.',
 };
 
 const ar: UI = {
@@ -66,7 +66,7 @@ const ar: UI = {
   contact: { title: 'أسئلة؟ نرد بسرعة', text: 'راسلنا على واتساب بأي لغة. يرد عليك شخص حقيقي عادة خلال 15 دقيقة.', whatsapp: 'واتساب', now: 'الآن في ألماتي' },
   tour: { back: 'كل الجولات', duration: 'المدة', distance: 'المسافة', level: 'المستوى', group: 'حجم المجموعة', plan: 'برنامج اليوم', includes: 'يشمل', perPerson: 'للشخص', groupTour: 'مجموعة صغيرة', privateTour: 'سيارة خاصة', perCar: 'للسيارة', bookNow: 'احجز هذه الجولة', km: 'كم', people: 'أشخاص' },
   booking: { title: 'احجز جولتك', steps: ['التاريخ', 'الضيوف', 'البيانات', 'الدفع'], date: 'اختر التاريخ', soldout: 'مكتمل', few: 'مقاعد قليلة', guests: 'الضيوف', adults: 'البالغون', children: 'الأطفال (4–12)', type: 'نوع الجولة', pickup: 'عنوان الاستقبال', pickupPh: 'اسم الفندق أو العنوان في ألماتي', addons: 'إضافات', name: 'الاسم الكامل', phone: 'رقم واتساب', email: 'البريد الإلكتروني', pay: 'الدفع', card: 'بطاقة', kaspi: 'Kaspi', cash: 'للمرشد', deposit: 'العربون الآن (20%)', rest: 'يوم الجولة', total: 'الإجمالي', next: 'متابعة', back: 'رجوع', confirm: 'تأكيد الحجز', confirmed: 'تم الحجز!', code: 'رمز الحجز', calendar: 'أضف إلى التقويم', whatsapp: 'التأكيد عبر واتساب', demo: 'عرض تجريبي: لا يتم خصم أي مبلغ.', hello: 'مرحباً! لقد حجزت', free: 'مجاناً' },
-  footer: 'تصميم موقع تجريبي من Esanov. QYRAN منظم رحلات وهمي، والأسعار والتقييمات للمثال.',
+  footer: 'تصميم موقع تجريبي من SABR. QYRAN منظم رحلات وهمي، والأسعار والتقييمات للمثال.',
 };
 
 const zh: UI = {
@@ -83,7 +83,7 @@ const zh: UI = {
   contact: { title: '有问题？我们回复很快', text: '用任何语言在WhatsApp留言，通常15分钟内由真人回复。', whatsapp: 'WhatsApp', now: '阿拉木图当前时间' },
   tour: { back: '全部线路', duration: '时长', distance: '距离', level: '难度', group: '团队人数', plan: '行程安排', includes: '费用包含', perPerson: '每人', groupTour: '小团', privateTour: '私家车', perCar: '每车', bookNow: '预订此线路', km: '公里', people: '人' },
   booking: { title: '预订线路', steps: ['日期', '人数', '信息', '支付'], date: '选择日期', soldout: '已满', few: '余位少', guests: '人数', adults: '成人', children: '儿童（4–12岁）', type: '出行方式', pickup: '接送地址', pickupPh: '阿拉木图的酒店名称或地址', addons: '附加项目', name: '姓名', phone: 'WhatsApp号码', email: '邮箱', pay: '支付方式', card: '银行卡', kaspi: 'Kaspi', cash: '现场付给导游', deposit: '现付定金（20%）', rest: '当天支付', total: '合计', next: '下一步', back: '返回', confirm: '确认预订', confirmed: '预订成功！', code: '预订码', calendar: '加入日历', whatsapp: '通过WhatsApp确认', demo: '演示：不会产生真实扣款。', hello: '您好！我预订了', free: '免费' },
-  footer: '网站概念由Esanov设计。QYRAN为虚构旅行社，价格和评分仅为示例。',
+  footer: '网站概念由SABR设计。QYRAN为虚构旅行社，价格和评分仅为示例。',
 };
 
 const hi: UI = {
@@ -100,7 +100,7 @@ const hi: UI = {
   contact: { title: 'सवाल हैं? हम जल्दी जवाब देते हैं', text: 'किसी भी भाषा में WhatsApp करें। आमतौर पर 15 मिनट में असली व्यक्ति जवाब देता है।', whatsapp: 'WhatsApp', now: 'अल्माटी में अभी' },
   tour: { back: 'सभी टूर', duration: 'अवधि', distance: 'दूरी', level: 'स्तर', group: 'ग्रुप साइज़', plan: 'दिन का कार्यक्रम', includes: 'शामिल', perPerson: 'प्रति व्यक्ति', groupTour: 'छोटा ग्रुप', privateTour: 'प्राइवेट गाड़ी', perCar: 'प्रति गाड़ी', bookNow: 'यह टूर बुक करें', km: 'किमी', people: 'लोग' },
   booking: { title: 'अपना टूर बुक करें', steps: ['तारीख़', 'मेहमान', 'विवरण', 'भुगतान'], date: 'तारीख़ चुनें', soldout: 'भरा हुआ', few: 'कुछ सीटें', guests: 'मेहमान', adults: 'वयस्क', children: 'बच्चे (4–12)', type: 'टूर का प्रकार', pickup: 'पिकअप पता', pickupPh: 'अल्माटी में होटल का नाम या पता', addons: 'अतिरिक्त', name: 'पूरा नाम', phone: 'WhatsApp नंबर', email: 'ईमेल', pay: 'भुगतान', card: 'कार्ड', kaspi: 'Kaspi', cash: 'गाइड को', deposit: 'अभी अग्रिम (20%)', rest: 'टूर के दिन', total: 'कुल', next: 'आगे', back: 'पीछे', confirm: 'बुकिंग पक्की करें', confirmed: 'बुकिंग हो गई!', code: 'बुकिंग कोड', calendar: 'कैलेंडर में जोड़ें', whatsapp: 'WhatsApp पर पुष्टि पाएँ', demo: 'डेमो: कोई असली भुगतान नहीं लिया जाता।', hello: 'नमस्ते! मैंने बुक किया', free: 'मुफ़्त' },
-  footer: 'Esanov द्वारा वेबसाइट कॉन्सेप्ट। QYRAN एक काल्पनिक टूर ऑपरेटर है, कीमतें और रेटिंग उदाहरण हैं।',
+  footer: 'SABR द्वारा वेबसाइट कॉन्सेप्ट। QYRAN एक काल्पनिक टूर ऑपरेटर है, कीमतें और रेटिंग उदाहरण हैं।',
 };
 
 export const ui: Record<Lang, UI> = { en, ru, kk, ar, zh, hi };
