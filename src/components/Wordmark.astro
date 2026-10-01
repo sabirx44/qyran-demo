@@ -1,0 +1,6 @@
+---
+// QYRAN wordmark: engraved serif capitals with wide tracking, the Q's tail extended as the eagle's flight line
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<span class:list={['qy-word', cls]} aria-hidden="true">QYRAN</span>

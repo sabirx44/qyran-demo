@@ -61,9 +61,12 @@ export function initKit({ reduced }: { reduced: boolean }) {
     document.addEventListener('pointerleave', () => cursor.classList.remove('on'));
     document.addEventListener('pointerover', (e) => {
       const t = (e.target as HTMLElement).closest<HTMLElement>('[data-cursor], a, button, [role="button"], input, select, textarea');
-      cursor.classList.toggle('grow', !!t && !t.matches('input, select, textarea'));
-      cursor.classList.toggle('text', !!t?.dataset.cursor);
-      label.textContent = t?.dataset.cursor || '';
+      const text = t?.dataset.cursor || '';
+      label.textContent = text;
+      // The shape is a real box, never a scaled dot, so it stays round and sharp; with a label it becomes a pill that fits the words
+      if (text) cursor.style.setProperty('--lw', `${Math.max(42, Math.ceil(label.offsetWidth) + 36)}px`);
+      cursor.classList.toggle('grow', !!t && !text && !t.matches('input, select, textarea'));
+      cursor.classList.toggle('text', !!text);
     });
     document.addEventListener('pointerdown', () => gsap.to(cursor, { scale: 0.8, duration: 0.15, yoyo: true, repeat: 1 }));
   }

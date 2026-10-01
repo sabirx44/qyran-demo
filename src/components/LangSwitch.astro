@@ -1,18 +1,20 @@
 ---
 import { langs, langMeta, path, type Lang } from '../i18n/langs';
+import { flagFor } from '../scripts/flags';
 interface Props { lang: Lang; page?: string; label: string; class?: string }
 const { lang, page = '/', label, class: cls = '' } = Astro.props;
 ---
 <details class:list={['lang-switch relative', cls]}>
-  <summary class="flex h-10 cursor-pointer list-none items-center gap-2 rounded-full bg-white px-4 text-[13px] font-bold text-night ring-1 ring-line" aria-label={label}>
-    <svg viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"/></svg>
+  <summary class="flex h-10 cursor-pointer list-none items-center gap-2 rounded-full bg-white ps-2.5 pe-3 text-[13px] font-bold text-night ring-1 ring-line" aria-label={label}>
+    <span class="flag" set:html={flagFor(lang)} />
     {langMeta[lang].label}
+    <svg viewBox="0 0 24 24" class="chev size-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
   </summary>
-  <ul class="absolute end-0 top-12 z-50 min-w-[170px] overflow-hidden rounded-2xl bg-white p-1.5 text-night shadow-[0_20px_50px_-20px_rgba(12,34,51,.35)] ring-1 ring-line">
+  <ul class="absolute end-0 top-12 z-50 min-w-[210px] overflow-hidden rounded-2xl bg-white p-1.5 text-night shadow-[0_20px_50px_-20px_rgba(12,34,51,.35)] ring-1 ring-line">
     {langs.map((l) => (
       <li>
         <a href={path(l, page)} hreflang={l} lang={l} class:list={['flex items-center justify-between gap-6 rounded-xl px-3.5 py-2.5 text-[15px] hover:bg-mist', l === lang && 'text-sky']} aria-current={l === lang ? 'true' : undefined}>
-          <span>{langMeta[l].name}</span><span class="text-[12px] text-stone">{langMeta[l].label}</span>
+          <span class="flex items-center gap-3"><span class="flag" set:html={flagFor(l)} />{langMeta[l].name}</span><span class="text-[12px] text-stone">{langMeta[l].label}</span>
         </a>
       </li>
     ))}
@@ -20,4 +22,16 @@ const { lang, page = '/', label, class: cls = '' } = Astro.props;
 </details>
 <style>
   .lang-switch summary::-webkit-details-marker { display: none; }
+  .flag { display: inline-block; width: 20px; height: 20px; flex: none; overflow: hidden; border-radius: 999px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12); }
+  .flag :global(svg) { display: block; width: 100%; height: 100%; }
+  .chev { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+  .lang-switch[open] .chev { transform: rotate(180deg); }
+  .lang-switch[open] ul { animation: ls-in 0.24s cubic-bezier(0.22, 1, 0.36, 1); transform-origin: top; }
+  @keyframes ls-in { from { opacity: 0; transform: translateY(-6px) scale(0.98); } }
+  @media (prefers-reduced-motion: reduce) { .lang-switch[open] ul { animation: none; } }
 </style>
+<script>
+  // Close the language list on a tap outside or on Escape
+  document.addEventListener('pointerdown', (e) => document.querySelectorAll<HTMLDetailsElement>('details.lang-switch[open]').forEach((d) => { if (!d.contains(e.target as Node)) d.open = false; }));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll<HTMLDetailsElement>('details.lang-switch[open]').forEach((d) => { d.open = false; d.querySelector('summary')?.focus(); }); });
+</script>

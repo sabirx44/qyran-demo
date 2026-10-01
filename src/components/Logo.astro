@@ -1,12 +1,12 @@
 ---
-// QYRAN mark: the flag's sun with a golden eagle's wings crossing it
-interface Props { class?: string }
-const { class: cls = '' } = Astro.props;
+// QYRAN mark, drawn in thin line like an engraved seal: the sun of the Kazakh flag as a ring,
+// and a golden eagle ("qyran") gliding across it, wings in one continuous stroke.
+// Strokes use pathLength=1 so the intro can draw them. Wing colour follows the text colour.
+interface Props { class?: string; draw?: boolean }
+const { class: cls = '', draw = false } = Astro.props;
 ---
-<svg viewBox="0 0 64 64" class:list={['block', cls]} aria-hidden="true">
-  <g transform="translate(32 30)" fill="#F2B233">
-    {Array.from({ length: 16 }, (_, i) => <path d="M-2.2 -17 L0 -27 L2.2 -17Z" transform={`rotate(${i * 22.5})`} />)}
-    <circle r="14" />
-  </g>
-  <path d="M32 36 C 26 30 14 27 3 30 C 11 32 17 35 21 39 C 15 40 11 43 8 47 C 16 44 22 44 27 45 L32 52 L37 45 C 42 44 48 44 56 47 C 53 43 49 40 43 39 C 47 35 53 32 61 30 C 50 27 38 30 32 36 Z" fill="#0C2233" stroke="#F7F8F5" stroke-width="1.5" stroke-linejoin="round" />
+<svg viewBox="0 0 64 64" class:list={['block', cls, draw && 'qy-draw']} aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="32" cy="29" r="15.5" stroke="var(--color-gold)" stroke-width="2" pathLength="1" />
+  <path d="M3.5 35.5 C 12 29.5, 22.5 28.5, 32 38.5 C 41.5 28.5, 52 29.5, 60.5 35.5" stroke="currentColor" stroke-width="2.6" pathLength="1" />
+  <path d="M9.5 33.2 l-2.2 -3.4 M15 31.4 l-1.6 -3.6 M54.5 33.2 l2.2 -3.4 M49 31.4 l1.6 -3.6" stroke="currentColor" stroke-width="1.8" pathLength="1" />
 </svg>

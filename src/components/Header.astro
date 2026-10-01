@@ -1,6 +1,7 @@
 ---
 // Header with language and currency switchers. Every element with data-usd shows its price in the chosen currency.
 import Logo from './Logo.astro';
+import Wordmark from './Wordmark.astro';
 import LangSwitch from './LangSwitch.astro';
 import { ui } from '../i18n/ui';
 import { langMeta, path, type Lang } from '../i18n/langs';
@@ -15,14 +16,14 @@ const links = [['tours', `${home}#tours`], ['why', `${home}#why`], ['agencies', 
   <div class="mx-auto flex h-[68px] max-w-[1440px] items-center gap-3 px-4 md:h-[76px] md:gap-5 md:px-10">
     <a href={home} class="me-auto flex items-center gap-2.5" data-magnetic="0.2" aria-label={operator.name}>
       <Logo class="size-10" />
-      <span class="display text-[30px] tracking-[0.06em]" style="text-transform:uppercase;font-family:'Alumni Sans Variable',sans-serif;font-weight:800">{operator.name}</span>
+      <Wordmark class="!text-[16px] !tracking-[.2em] min-[400px]:!text-[18px] md:!text-[21px] md:!tracking-[.34em]" />
     </a>
     <nav class="hidden items-center gap-7 text-[15px] font-semibold lg:flex" aria-label="Main">
       {links.map(([k, href]) => <a href={href} class="nav-link">{t.nav[k]}</a>)}
     </nav>
-    <label class="relative">
+    <label class="relative shrink-0">
       <span class="sr-only">{t.nav.currency}</span>
-      <select class="cur-select h-10 cursor-pointer appearance-none rounded-full bg-white/90 pe-7 ps-3.5 text-[13px] font-bold text-night ring-1 ring-line" data-currency data-default={langMeta[lang].currency}>
+      <select class="cur-select h-10 cursor-pointer appearance-none whitespace-nowrap rounded-full bg-white pe-2.5 ps-3 text-[13px] font-bold text-night ring-1 ring-line" data-currency data-default={langMeta[lang].currency}>
         {Object.keys(rates).map((c) => <option value={c}>{c}</option>)}
       </select>
       <svg viewBox="0 0 24 24" class="pointer-events-none absolute end-2.5 top-1/2 size-3.5 -translate-y-1/2 text-night" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>

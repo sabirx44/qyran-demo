@@ -1,7 +1,8 @@
 /*
   QYRAN identity (fictional Almaty tour operator, "qyran" = golden eagle):
-  the sky blue and the golden sun of the Kazakh flag, deep lake navy for text,
-  snow white for the page. Real footage carries the page; an editorial high-contrast serif (like the
+  the Kazakh flag's sky and sun, muted to what the land looks like: glacier-lake teal, eagle gold used
+  sparingly (the mark, stars, one call to action per screen), dusk-lake navy for text, cool snow for the page.
+  Real footage carries the page; an editorial high-contrast serif (like the
   best travel houses: Aman, Jacada, Wild Frontiers) sits over it, with the condensed Alumni Sans kept for labels and prices.
 */
 @import "tailwindcss";
@@ -13,17 +14,17 @@
 @import "@fontsource-variable/noto-sans-devanagari/wght.css";
 
 @theme {
-  --color-sky: #1596B8;
-  --color-sky-2: #7FCDE0;
-  --color-sky-soft: #E3F3F7;
-  --color-gold: #F2B233;
-  --color-gold-2: #FFD27A;
-  --color-night: #0C2233;
-  --color-snow: #F7F8F5;
-  --color-mist: #EBF0F1;
+  --color-sky: #1D7A8C;
+  --color-sky-2: #93CAD4;
+  --color-sky-soft: #E4F0F1;
+  --color-gold: #D9A441;
+  --color-gold-2: #EDCB84;
+  --color-night: #0B1C26;
+  --color-snow: #F4F6F4;
+  --color-mist: #E8EDEC;
   --color-stone: #5D6B75;
   --color-rust: #C4532B;
-  --color-line: rgba(12, 34, 51, 0.12);
+  --color-line: rgba(11, 28, 38, 0.12);
   --font-display: "Noto Serif Display Variable", Georgia, serif;
   --font-label: "Alumni Sans Variable", "Arial Narrow", sans-serif;
   --font-sans: "Commissioner Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -39,7 +40,7 @@ html[lang="zh"] { --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans S
   body { font-family: var(--font-sans); font-size: 16px; line-height: 1.55; }
   h1, h2, h3 { text-wrap: balance; }
   :focus-visible { outline: 2px solid var(--color-sky); outline-offset: 3px; border-radius: 8px; }
-  ::selection { background: var(--color-gold); color: var(--color-night); }
+  ::selection { background: var(--color-night); color: var(--color-gold-2); }
   img { display: block; max-width: 100%; }
 }
 
@@ -59,7 +60,7 @@ html[lang="zh"] { --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans S
   html[dir="rtl"] .t-m, html[lang="hi"] .t-m, html[lang="zh"] .t-m { font-size: clamp(20px, 1.6vw, 24px); line-height: 1.2; }
   .kick { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--color-sky); }
   html[dir="rtl"] .kick, html[lang="hi"] .kick, html[lang="zh"] .kick { letter-spacing: .02em; font-size: 14px; }
-  .kick::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 3px rgba(242,178,51,.25); }
+  .kick::before { content: ""; width: 22px; height: 1.5px; background: currentColor; opacity: .7; }
   .num { font-variant-numeric: tabular-nums; }
 
   .kbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 54px; max-width: 100%; min-width: 0; padding-inline: 24px; border-radius: 16px; overflow: hidden; isolation: isolate; font-weight: 700; font-size: 16px; white-space: normal; line-height: 1.15; text-align: center; transition: color .4s var(--ease), transform .15s; }
@@ -98,7 +99,7 @@ html[lang="zh"] { --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans S
 
   /* Bottom sheet on phones, side drawer on desktop */
   .sheet { margin: auto 0 0; width: 100%; max-width: 100%; max-height: 100dvh; padding: 0; border: 0; background: transparent; color: var(--color-night); }
-  .sheet::backdrop { background: rgba(12, 34, 51, .5); backdrop-filter: blur(6px); }
+  .sheet::backdrop { background: rgba(11, 28, 38, .5); backdrop-filter: blur(6px); }
   .sheet > .sheet-body { max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain; border-radius: 28px 28px 0 0; background: var(--color-snow); padding: 10px 18px calc(18px + env(safe-area-inset-bottom)); }
   .sheet[open] > .sheet-body { animation: sheet-up .5s var(--ease); }
   .sheet .grab { display: block; margin: 0 auto 12px; width: 44px; height: 5px; border-radius: 99px; background: var(--color-line); }
@@ -113,17 +114,17 @@ html[lang="zh"] { --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans S
   .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
   .cal button { position: relative; aspect-ratio: 1; border-radius: 12px; font-weight: 700; font-size: 15px; display: grid; place-items: center; line-height: 1; }
   .cal button small { position: absolute; bottom: 4px; font-size: 9px; font-weight: 600; color: var(--color-stone); }
-  .cal button:disabled { color: rgba(12,34,51,.25); text-decoration: line-through; }
+  .cal button:disabled { color: rgba(11,28,38,.25); text-decoration: line-through; }
   .cal button[aria-pressed="true"] { background: var(--color-night); color: #fff; }
   .cal button[aria-pressed="true"] small { color: var(--color-gold-2); }
   .cal button.low small { color: var(--color-rust); }
 
   .kcursor { position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none; width: 0; height: 0; opacity: 0; transition: opacity .3s; }
   .kcursor.on { opacity: 1; }
-  .kcursor-dot { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--color-gold); box-shadow: 0 0 0 2px var(--color-night); transition: transform .45s var(--ease), background-color .3s; }
-  .kcursor.grow .kcursor-dot { transform: scale(2.4); }
-  .kcursor.text .kcursor-dot { transform: scale(7.5); background: var(--color-night); box-shadow: none; }
-  .kcursor-label { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; opacity: 0; transition: opacity .25s; }
+  .kcursor-dot { position: absolute; left: 0; top: 0; width: var(--d, 14px); height: var(--d, 14px); transform: translate(-50%, -50%); border-radius: 999px; background: var(--color-gold); box-shadow: 0 0 0 2px var(--color-night); transition: width .45s var(--ease), height .45s var(--ease), border-radius .45s var(--ease), transform .45s var(--ease), background-color .3s; }
+  .kcursor.grow .kcursor-dot { --d: 34px; }
+  .kcursor.text .kcursor-dot { width: var(--lw, 88px); height: 42px; background: var(--color-night); box-shadow: none; }
+  .kcursor-label { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); z-index: 1; font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; opacity: 0; transition: opacity .25s; }
   .kcursor.text .kcursor-label { opacity: 1; }
   html.has-cursor, html.has-cursor a, html.has-cursor button { cursor: none; }
 
@@ -148,3 +149,33 @@ html.lenis, html.lenis body { height: auto; }
 
 /* A button label may shrink and wrap next to its icon instead of pushing out of the button */
 .kbtn > span:not(.ico) { min-width: 0; }
+
+:root { --dd-bg: #fff; --dd-fg: var(--color-night); --dd-hover: var(--color-mist); --dd-accent: var(--color-sky); --dd-line: var(--color-line); --dd-shadow: 0 24px 60px -24px rgba(11,28,38,.35); }
+@layer components {
+  /* Designed dropdowns (tools/kit/dropdown.ts). Site colours come from the --dd-* variables above. */
+  .dd-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: .5em; text-align: start; cursor: pointer; }
+  .dd-btn .dd-val { min-width: 0; overflow-wrap: anywhere; line-height: 1.2; }
+  .dd-btn.dd-placeholder .dd-val { opacity: .7; }
+  .dd-chev { width: 14px; height: 14px; flex: none; opacity: .75; transition: transform .3s cubic-bezier(.22, 1, .36, 1); }
+  .dd-btn[aria-expanded="true"] .dd-chev { transform: rotate(180deg); }
+  .dd-list { position: fixed; z-index: 200; margin: 0; padding: 6px; list-style: none; overflow: auto; overscroll-behavior: contain; background: var(--dd-bg); color: var(--dd-fg); border-radius: var(--dd-radius, 16px); border: 1px solid var(--dd-line); box-shadow: var(--dd-shadow); opacity: 0; transform: translateY(-6px) scale(.98); transform-origin: top center; transition: opacity .18s ease, transform .24s cubic-bezier(.22, 1, .36, 1); scrollbar-width: thin; }
+  .dd-list.dd-up { transform: translateY(6px) scale(.98); transform-origin: bottom center; }
+  .dd-list.dd-open { opacity: 1; transform: none; }
+  .dd-opt { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 8px 12px; border-radius: calc(var(--dd-radius, 16px) - 6px); font-size: 15px; font-weight: 600; line-height: 1.25; cursor: pointer; outline: none; transition: background-color .15s; }
+  .dd-opt:hover, .dd-opt:focus-visible, .dd-opt:focus { background: var(--dd-hover); }
+  .dd-opt[aria-selected="true"] { color: var(--dd-accent); }
+  .dd-tick { width: 16px; height: 16px; flex: none; opacity: 0; }
+  .dd-opt[aria-selected="true"] .dd-tick { opacity: 1; }
+  .dd-opt[aria-disabled="true"] { opacity: .4; cursor: default; }
+  @media (prefers-reduced-motion: reduce) { .dd-list { transition: none; } }
+}
+
+/* Brand: engraved serif wordmark and a line mark that draws itself in the intro */
+.qy-word { font-family: "Noto Serif Display Variable", Georgia, serif; font-weight: 450; font-size: 22px; letter-spacing: .34em; margin-inline-end: -.34em; line-height: 1; text-transform: uppercase; }
+.qy-draw circle, .qy-draw path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: qy-draw 1.3s var(--ease) forwards; }
+.qy-draw path:nth-of-type(1) { animation-delay: .45s; }
+.qy-draw path:nth-of-type(2) { animation-delay: .9s; animation-duration: .6s; }
+@keyframes qy-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .qy-draw circle, .qy-draw path { animation: none; stroke-dashoffset: 0; } }
+/* A centred button keeps a wrapped label centred too */
+.kbtn.no-ico { text-align: center; }

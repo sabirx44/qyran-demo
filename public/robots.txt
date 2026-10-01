@@ -1,2 +1,5 @@
+# Demo for a client: kept out of search until the client approves
 User-agent: *
-Disallow: /
+Disallow: /admin/
+Disallow: /t/
+Sitemap: https://qyran-demo.pages.dev/sitemap.xml

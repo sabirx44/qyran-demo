@@ -22,13 +22,19 @@ const data = await Promise.all(tours.map(async (tour) => {
   };
 }));
 ---
-<div class="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:gap-5 md:px-0" style="scrollbar-width:none" role="list" aria-label={m.stories}>
+<div class="reels" role="list" aria-label={m.stories}>
   {data.map((s, i) => (
-    <button type="button" class="story-ring press group flex w-[76px] shrink-0 flex-col items-center gap-2 md:w-[96px]" data-story={i} role="listitem" data-cursor={m.watch}>
-      <span class="relative grid size-[72px] place-items-center rounded-full p-[3px] md:size-[92px]" style="background:conic-gradient(from 200deg,var(--color-gold),var(--color-sky),var(--color-gold-2),var(--color-gold))">
-        <img src={s.ring} alt="" width="160" height="160" loading="lazy" class="size-full rounded-full object-cover ring-[3px] ring-snow transition-transform duration-500 group-hover:scale-105" />
+    <button type="button" class="reel press group" data-story={i} role="listitem" data-cursor={m.watch} aria-label={`${m.watch}: ${s.name}`}>
+      <span class="reel-media">
+        <img src={s.slides[0].poster} alt="" width="720" height="1280" loading="lazy" decoding="async" />
+        <video muted playsinline loop preload="none" data-src={s.slides[0].video} aria-hidden="true"></video>
       </span>
-      <span class="line-clamp-2 text-center text-[12px] font-semibold leading-tight">{s.name}</span>
+      <span class="reel-bars" aria-hidden="true">{s.slides.map(() => <i></i>)}</span>
+      <span class="reel-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z" /></svg></span>
+      <span class="reel-text">
+        <b class="display block text-[17px] leading-[1.1] md:text-[19px]">{s.name}</b>
+        <span class="mt-1.5 block text-[12px] text-white/80">{t.card.from} <b class="num text-[14px] text-white" dir="ltr" data-usd={s.usd}>${s.usd}</b></span>
+      </span>
     </button>
   ))}
 </div>
@@ -55,6 +61,31 @@ const data = await Promise.all(tours.map(async (tour) => {
 <script type="application/json" id="story-data" set:html={JSON.stringify(data)} />
 
 <style is:global>
+  /* Story reels: tall 9:16 cards, a swipeable row on phones, one full-width row on desktop */
+  .reels { display: flex; gap: 10px; margin-inline: -16px; padding: 4px 16px 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .reels::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .reels { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 4px 0 8px; overflow: visible; } }
+  .reel { position: relative; flex: 0 0 min(42vw, 190px); aspect-ratio: 9 / 16; scroll-snap-align: start; border-radius: 20px; text-align: start; color: #fff;
+    background: conic-gradient(from 210deg, var(--color-gold), var(--color-sky-2), var(--color-gold-2), var(--color-sky), var(--color-gold)); box-shadow: 0 24px 40px -28px rgba(11,28,38,.7); }
+  @media (min-width: 900px) { .reel { flex: none; width: auto; } }
+  .reel-media { position: absolute; inset: 2.5px; overflow: hidden; border-radius: 17.5px; background: var(--color-night); }
+  .reel-media > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease), opacity .4s; }
+  .reel-media video { opacity: 0; }
+  .reel.playing .reel-media video { opacity: 1; }
+  .reel:hover .reel-media > * { transform: scale(1.06); }
+  .reel-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,28,38,.9) 0%, rgba(11,28,38,.25) 45%, transparent 60%, rgba(11,28,38,.45) 100%); }
+  .reel-bars { position: absolute; z-index: 1; inset-inline: 12px; top: 12px; display: flex; gap: 4px; }
+  .reel-bars i { flex: 1; height: 2.5px; border-radius: 2px; background: rgba(255,255,255,.45); }
+  .reel-bars i:first-child { background: #fff; }
+  .reel-play { position: absolute; z-index: 1; top: 50%; left: 50%; display: grid; place-items: center; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 999px; color: #fff; background: rgba(255,255,255,.2); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.45); transition: transform .4s var(--ease), opacity .3s; }
+  .reel-play svg { width: 20px; height: 20px; margin-inline-start: 3px; }
+  .reel-play::after { content: ""; position: absolute; inset: -6px; border-radius: inherit; border: 1.5px solid rgba(255,255,255,.55); animation: reel-pulse 2.4s var(--ease) infinite; }
+  .reel:hover .reel-play { transform: scale(1.1); }
+  .reel.playing .reel-play { opacity: 0; }
+  @keyframes reel-pulse { 0% { transform: scale(.85); opacity: 1; } 80%, 100% { transform: scale(1.35); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .reel-play::after { animation: none; } }
+  .reel-text { position: absolute; z-index: 1; inset-inline: 12px; bottom: 12px; }
+
   .story { width: 100%; height: 100%; max-width: 100%; max-height: 100%; margin: 0; padding: 0; border: 0; background: #000; }
   .story::backdrop { background: rgba(4, 12, 18, .92); }
   .story-frame { position: relative; height: 100dvh; width: 100%; margin: auto; overflow: hidden; background: #000; user-select: none; -webkit-user-select: none; }
@@ -123,6 +154,14 @@ const data = await Promise.all(tours.map(async (tour) => {
   function prev() { if (sl > 0) sl--; else if (si > 0) { si--; sl = 0; } render(); }
 
   document.querySelectorAll<HTMLElement>('[data-story]').forEach((b) => b.addEventListener('click', () => open(Number(b.dataset.story))));
+  // Desktop: the reel starts playing under the pointer. Phones keep the poster to save data.
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('.reel').forEach((r) => {
+      const v = r.querySelector('video')!;
+      r.addEventListener('pointerenter', () => { if (!v.src) v.src = v.dataset.src!; v.play().then(() => r.classList.add('playing')).catch(() => {}); });
+      r.addEventListener('pointerleave', () => { v.pause(); r.classList.remove('playing'); });
+    });
+  }
   const rtl = document.documentElement.dir === 'rtl';
   // Tap zones sit at the logical start and end, so they already follow RTL
   const tap = (fwd: boolean) => () => { if (skipClick) { skipClick = false; return; } (fwd ? next : prev)(); };
