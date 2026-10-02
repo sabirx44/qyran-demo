@@ -19,7 +19,7 @@ Demo site for a fictional tour operator in Almaty, Kazakhstan, built mobile firs
 
 Astro · TypeScript · Tailwind CSS · GSAP · Lenis · Cloudflare Pages
 
-Built with an AI-assisted workflow; every page passes an automated layout audit (Puppeteer) at five screen widths and in every language before deploy.
+Every page passes an automated layout audit (Puppeteer) at five screen widths and in every language before deploy.
 
 ## Run
 
